@@ -1,0 +1,19 @@
+﻿# Backend
+backend/**/bin/
+backend/**/obj/
+
+# Frontend
+frontend/mail-marketing-ui/node_modules/
+frontend/mail-marketing-ui/dist/
+
+# IDE
+.vscode/
+.idea/
+
+# Env
+.env
+
+# OS
+.DS_Store
+Thumbs.db
+

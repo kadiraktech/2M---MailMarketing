@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/MailMarketing.Api/MailMarketing.Api.csproj" />
+    <Project Path="src/MailMarketing.Business/MailMarketing.Business.csproj" />
+    <Project Path="src/MailMarketing.Data/MailMarketing.Data.csproj" />
+    <Project Path="src/MailMarketing.Domain/MailMarketing.Domain.csproj" />
+  </Folder>
+</Solution>

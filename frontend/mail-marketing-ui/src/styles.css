@@ -1,0 +1,43 @@
+:root {
+  --app-bg: linear-gradient(135deg, #eff4fb 0%, #eef8f2 100%);
+  --card-border: #d3e1ef;
+  --text-main: #1e2a38;
+}
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  color: var(--text-main);
+  background: var(--app-bg);
+}
+.page-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.2rem;
+}
+.toast-box {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 9999;
+  min-width: 280px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+.ql-editor {
+  min-height: 180px;
+}
+.card {
+  border-radius: 12px;
+  border: 1px solid var(--card-border);
+  box-shadow: 0 8px 24px rgba(30, 64, 99, 0.06);
+}
+.btn {
+  border-radius: 10px;
+}
+.form-control,
+.form-select {
+  border-radius: 10px;
+}
+table.table thead th {
+  font-weight: 600;
+  color: #364a5f;
+}
