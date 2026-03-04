@@ -1,81 +1,125 @@
 ﻿import { Component } from '@angular/core';
-import { DatePipe, NgFor, NgIf } from '@angular/common';
+import { DatePipe, NgIf } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ApiService, SubscriberDto } from '../../../core/api.service';
 import { ToastService } from '../../../core/toast.service';
 import { ConfirmService } from '../../../core/confirm.service';
 import { getApiErrorMessage } from '../../../core/api-error.util';
+import { CardModule } from 'primeng/card';
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   standalone: true,
-  imports: [NgFor, NgIf, DatePipe, ReactiveFormsModule],
+  imports: [NgIf, DatePipe, ReactiveFormsModule, CardModule, TableModule, ButtonModule, InputTextModule],
+  styles: [`
+    .subscribers-layout {
+      display: grid;
+      grid-template-columns: minmax(280px, 360px) 1fr;
+      gap: 1rem;
+    }
+    .subscribers-filter {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: .5rem;
+      margin-bottom: 1rem;
+      align-items: end;
+    }
+    .subscribers-filter .email-col {
+      grid-column: span 2;
+    }
+    @media (max-width: 991px) {
+      .subscribers-layout {
+        grid-template-columns: 1fr;
+      }
+      .subscribers-filter {
+        grid-template-columns: 1fr 1fr;
+      }
+      .subscribers-filter .email-col,
+      .subscribers-filter .btn-col {
+        grid-column: span 2;
+      }
+    }
+  `],
   template: `
-    <div class="row g-3">
-      <div class="col-12 col-lg-4">
-        <div class="card p-4 h-100">
-          <h2 class="h5">Yeni Abone</h2>
-          <form [formGroup]="createForm" (ngSubmit)="create()" class="d-grid gap-2 mt-2">
-            <input class="form-control" placeholder="Ad Soyad" formControlName="fullName" />
-            <input class="form-control" placeholder="E-posta" formControlName="email" />
-            <small class="text-danger" *ngIf="createForm.controls.email.touched && createForm.controls.email.invalid">Geçerli e-posta giriniz.</small>
-            <button class="btn btn-success" [disabled]="createForm.invalid">Ekle</button>
+    <p-card header="Aboneler">
+      <div class="subscribers-layout">
+        <div>
+          <h3 class="h6 mb-3">Yeni Abone</h3>
+          <form [formGroup]="createForm" (ngSubmit)="create()" class="d-grid gap-2">
+            <input pInputText placeholder="Ad Soyad" formControlName="fullName" />
+            <input pInputText placeholder="E-posta" formControlName="email" />
+            <small class="text-danger" *ngIf="createForm.controls.email.touched && createForm.controls.email.invalid">
+              Geçerli e-posta giriniz.
+            </small>
+            <button pButton type="submit" label="Ekle" severity="success" [disabled]="createForm.invalid"></button>
           </form>
         </div>
-      </div>
 
-      <div class="col-12 col-lg-8">
-        <div class="card p-4">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2 class="h4 mb-0">Aboneler</h2>
-            <span class="badge bg-info text-dark">Toplam: {{ subscribers.length }}</span>
-          </div>
-
-          <form [formGroup]="filterForm" (ngSubmit)="load()" class="row g-2 mb-3">
-            <div class="col-12 col-md-4">
-              <input class="form-control" placeholder="E-posta ara" formControlName="email" />
+        <div>
+          <form [formGroup]="filterForm" (ngSubmit)="load()" class="subscribers-filter">
+            <div class="email-col">
+              <input pInputText class="w-100" placeholder="E-posta ara" formControlName="email" />
             </div>
-            <div class="col-6 col-md-3">
-              <input class="form-control" type="date" formControlName="createdFrom" />
+            <div>
+              <input pInputText class="w-100" type="date" formControlName="createdFrom" />
             </div>
-            <div class="col-6 col-md-3">
-              <input class="form-control" type="date" formControlName="createdTo" />
+            <div>
+              <input pInputText class="w-100" type="date" formControlName="createdTo" />
             </div>
-            <div class="col-12 col-md-2 d-grid">
-              <button class="btn btn-outline-primary">Filtrele</button>
+            <div class="btn-col">
+              <button pButton type="submit" label="Filtrele" [outlined]="true"></button>
             </div>
           </form>
 
-          <div class="table-responsive" *ngIf="subscribers.length; else emptyState">
-            <table class="table table-striped table-hover align-middle">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>E-posta</th>
-                  <th>Ad Soyad</th>
-                  <th>Eklenme</th>
-                  <th class="text-end">İşlem</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let s of subscribers">
-                  <td>{{ s.id }}</td>
-                  <td>{{ s.email }}</td>
-                  <td>{{ s.fullName || '-' }}</td>
-                  <td>{{ s.createdAtUtc | date: 'short' }}</td>
-                  <td class="text-end">
-                    <button class="btn btn-sm btn-outline-danger" (click)="remove(s)">Sil</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <p-table
+            [value]="subscribers"
+            [paginator]="true"
+            [rows]="10"
+            [rowsPerPageOptions]="[10, 20, 50]"
+            [responsiveLayout]="'scroll'"
+            [stripedRows]="true"
+            size="small"
+            dataKey="id"
+            *ngIf="subscribers.length; else emptyState">
+
+            <ng-template pTemplate="header">
+              <tr>
+                <th>E-posta</th>
+                <th>Kayıt Zamanı</th>
+                <th class="text-end">İşlem</th>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-s>
+              <tr>
+                <td>
+                  <div class="fw-semibold">{{ s.email }}</div>
+                  <div class="small text-muted">{{ s.fullName || '-' }}</div>
+                </td>
+                <td>{{ s.createdAtUtc | date: 'short' }}</td>
+                <td class="text-end">
+                  <button
+                    pButton
+                    type="button"
+                    size="small"
+                    [outlined]="true"
+                    severity="danger"
+                    label="Sil"
+                    (click)="remove(s)">
+                  </button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
 
           <ng-template #emptyState>
             <div class="alert alert-light border mb-0">Kayıt bulunamadı.</div>
           </ng-template>
         </div>
       </div>
-    </div>
+    </p-card>
   `
 })
 export class SubscribersPageComponent {
@@ -92,7 +136,12 @@ export class SubscribersPageComponent {
     createdTo: ['']
   });
 
-  constructor(private fb: FormBuilder, private api: ApiService, private toast: ToastService, private confirm: ConfirmService) {
+  constructor(
+    private fb: FormBuilder,
+    private api: ApiService,
+    private toast: ToastService,
+    private confirm: ConfirmService
+  ) {
     this.load();
   }
 
