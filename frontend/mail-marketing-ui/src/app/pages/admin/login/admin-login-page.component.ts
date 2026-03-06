@@ -5,28 +5,72 @@ import { AuthService } from '../../../core/auth.service';
 import { ToastService } from '../../../core/toast.service';
 import { NgIf } from '@angular/common';
 import { getApiErrorMessage } from '../../../core/api-error.util';
+import { CardModule } from 'primeng/card';
+import { InputTextModule } from 'primeng/inputtext';
+import { PasswordModule } from 'primeng/password';
+import { ButtonModule } from 'primeng/button';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @Component({
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, NgIf],
+  imports: [
+    ReactiveFormsModule,
+    RouterLink,
+    NgIf,
+    CardModule,
+    InputTextModule,
+    PasswordModule,
+    ButtonModule,
+    ProgressSpinnerModule
+  ],
+  styles: [`
+    .login-form {
+      display: grid;
+      gap: .5rem;
+    }
+    .action-row {
+      display: flex;
+      gap: .5rem;
+      align-items: center;
+    }
+    .spinner-inline {
+      width: 20px;
+      height: 20px;
+    }
+    .links-row {
+      margin-top: .5rem;
+      display: flex;
+      gap: .75rem;
+      flex-wrap: wrap;
+    }
+  `],
   template: `
-    <div class="card p-4">
-      <h2>Yönetici Girişi</h2>
-      <form [formGroup]="form" (ngSubmit)="submit()" class="d-grid gap-2">
-        <input class="form-control" placeholder="E-posta" formControlName="email" />
+    <p-card header="Yönetici Girişi">
+      <form [formGroup]="form" (ngSubmit)="submit()" class="login-form">
+        <input pInputText placeholder="E-posta" formControlName="email" />
         <small class="text-danger" *ngIf="form.controls.email.touched && form.controls.email.invalid">Geçerli e-posta giriniz.</small>
 
-        <input class="form-control" type="password" placeholder="Şifre" formControlName="password" />
+        <p-password
+          formControlName="password"
+          [feedback]="false"
+          [toggleMask]="true"
+          [inputStyle]="{ width: '100%' }"
+          styleClass="w-100"
+          placeholder="Şifre">
+        </p-password>
         <small class="text-danger" *ngIf="form.controls.password.touched && form.controls.password.invalid">Şifre zorunludur.</small>
 
-        <button class="btn btn-primary" [disabled]="form.invalid || loading">Giriş Yap</button>
+        <div class="action-row">
+          <button pButton type="submit" label="Giriş Yap" [disabled]="form.invalid || loading"></button>
+          <p-progressSpinner *ngIf="loading" styleClass="spinner-inline" strokeWidth="6" fill="transparent"></p-progressSpinner>
+        </div>
       </form>
 
-      <div class="mt-2 d-flex gap-3">
+      <div class="links-row">
         <a routerLink="/admin/register">Kayıt Ol</a>
         <a routerLink="/admin/forgot-password">Şifremi Unuttum</a>
       </div>
-    </div>
+    </p-card>
   `
 })
 export class AdminLoginPageComponent {

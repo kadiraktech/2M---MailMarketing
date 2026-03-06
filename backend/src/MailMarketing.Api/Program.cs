@@ -21,6 +21,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(JwtOptions.SectionName));
 builder.Services.Configure<CorsOptions>(builder.Configuration.GetSection(CorsOptions.SectionName));
 builder.Services.Configure<QueueWorkerOptions>(builder.Configuration.GetSection(QueueWorkerOptions.SectionName));
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = "redis:6379";
+    options.InstanceName = "mailmarketing:";
+});
 
 var connStr = builder.Configuration.GetConnectionString("Default")
     ?? Environment.GetEnvironmentVariable("ConnectionStrings__Default")

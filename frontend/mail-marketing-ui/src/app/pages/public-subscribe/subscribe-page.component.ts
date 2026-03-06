@@ -1,13 +1,14 @@
-﻿import { Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ApiService } from '../../core/api.service';
 import { getApiErrorMessage } from '../../core/api-error.util';
 
 @Component({
   standalone: true,
   selector: 'app-subscribe-page',
-  imports: [ReactiveFormsModule, NgIf],
+  imports: [ReactiveFormsModule, NgIf, TranslateModule],
   styles: [`
     .hero-shell {
       background: radial-gradient(circle at 20% 10%, #e5f2ff 0%, #f7fbff 42%, #eefcf1 100%);
@@ -76,11 +77,10 @@ import { getApiErrorMessage } from '../../core/api-error.util';
         <div class="col-12 col-lg-7">
           <div class="h-100 d-flex flex-column justify-content-between">
             <div>
-              <span class="hero-pill mb-3">Yeni duyurular • Kampanyalar • İçerikler</span>
-              <h1 class="hero-title fw-bold mb-3">MailMarketing Bültenine Katılın</h1>
+              <span class="hero-pill mb-3">{{ 'public.subscribe.pill' | translate }}</span>
+              <h1 class="hero-title fw-bold mb-3">{{ 'public.subscribe.heroTitle' | translate }}</h1>
               <p class="text-muted mb-4">
-                Özel fırsatları kaçırmamak, yeni e-posta şablonlarını görmek ve kampanya takibini kolaylaştırmak için
-                bültene katılın.
+                {{ 'public.subscribe.heroDesc' | translate }}
               </p>
             </div>
 
@@ -88,22 +88,22 @@ import { getApiErrorMessage } from '../../core/api-error.util';
               <div class="col-12 col-md-4">
                 <div class="feature-card">
                   <div class="feature-icon">01</div>
-                  <div class="fw-semibold">Erken Erişim</div>
-                  <div class="small text-muted">Yeni kampanyaları herkesten önce alın.</div>
+                  <div class="fw-semibold">{{ 'public.subscribe.features.earlyAccessTitle' | translate }}</div>
+                  <div class="small text-muted">{{ 'public.subscribe.features.earlyAccessDesc' | translate }}</div>
                 </div>
               </div>
               <div class="col-12 col-md-4">
                 <div class="feature-card">
                   <div class="feature-icon">02</div>
-                  <div class="fw-semibold">Haftalık Özet</div>
-                  <div class="small text-muted">Kısa, net ve düzenli e-posta akışı.</div>
+                  <div class="fw-semibold">{{ 'public.subscribe.features.weeklyTitle' | translate }}</div>
+                  <div class="small text-muted">{{ 'public.subscribe.features.weeklyDesc' | translate }}</div>
                 </div>
               </div>
               <div class="col-12 col-md-4">
                 <div class="feature-card">
                   <div class="feature-icon">03</div>
-                  <div class="fw-semibold">Tek Tık Çıkış</div>
-                  <div class="small text-muted">İstediğiniz zaman abonelikten ayrılabilirsiniz.</div>
+                  <div class="fw-semibold">{{ 'public.subscribe.features.oneClickTitle' | translate }}</div>
+                  <div class="small text-muted">{{ 'public.subscribe.features.oneClickDesc' | translate }}</div>
                 </div>
               </div>
             </div>
@@ -112,22 +112,22 @@ import { getApiErrorMessage } from '../../core/api-error.util';
 
         <div class="col-12 col-lg-5">
           <div class="subscribe-form p-4 h-100">
-            <h2 class="h5 mb-2">Abonelik Formu</h2>
-            <p class="muted-note mb-3">Bilgilerinizi girin, güncellemeleri e-posta ile gönderelim.</p>
+            <h2 class="h5 mb-2">{{ 'public.subscribe.formTitle' | translate }}</h2>
+            <p class="muted-note mb-3">{{ 'public.subscribe.formDesc' | translate }}</p>
 
             <form [formGroup]="form" (ngSubmit)="submit()" class="d-grid gap-2">
-              <input class="form-control" placeholder="Ad Soyad (opsiyonel)" formControlName="fullName" />
+              <input class="form-control" [placeholder]="'public.subscribe.fullNameOptional' | translate" formControlName="fullName" />
               <small class="text-danger" *ngIf="form.controls.fullName.invalid && form.controls.fullName.touched">
-                Ad Soyad en fazla 200 karakter olabilir.
+                {{ 'public.subscribe.fullNameValidation' | translate }}
               </small>
 
-              <input class="form-control" placeholder="E-posta" formControlName="email" />
+              <input class="form-control" [placeholder]="'public.subscribe.email' | translate" formControlName="email" />
               <small class="text-danger" *ngIf="form.controls.email.invalid && form.controls.email.touched">
-                Geçerli e-posta giriniz.
+                {{ 'public.subscribe.validEmail' | translate }}
               </small>
 
               <button class="btn btn-primary submit-btn mt-1" [disabled]="form.invalid || loading">
-                {{ loading ? 'Kaydediliyor...' : 'Bültene Katıl' }}
+                {{ loading ? ('public.subscribe.saving' | translate) : ('public.subscribe.submit' | translate) }}
               </button>
             </form>
 
@@ -149,7 +149,7 @@ export class SubscribePageComponent {
   errorMessage = '';
   loading = false;
 
-  constructor(private fb: FormBuilder, private api: ApiService) {}
+  constructor(private fb: FormBuilder, private api: ApiService, private translate: TranslateService) {}
 
   submit() {
     if (this.form.invalid || this.loading) return;
@@ -161,7 +161,7 @@ export class SubscribePageComponent {
     this.api.subscribe(this.form.getRawValue()).subscribe({
       next: () => {
         this.loading = false;
-        this.successMessage = 'Abonelik başarılı. Teşekkür ederiz.';
+        this.successMessage = this.translate.instant('public.subscribe.success');
         this.form.reset({ fullName: '', email: '' });
         setTimeout(() => (this.successMessage = ''), 4000);
       },
@@ -172,4 +172,3 @@ export class SubscribePageComponent {
     });
   }
 }
-

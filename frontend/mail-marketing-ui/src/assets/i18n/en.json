@@ -1,0 +1,246 @@
+﻿{
+  "dashboard": "Dashboard",
+  "refresh": "Refresh",
+  "subscribers": "Subscribers",
+  "templates": "Templates",
+  "admin": {
+    "title": "MailMarketing Admin"
+  },
+  "shell": {
+    "public": "Public",
+    "logout": "Logout",
+    "navigation": "Navigation",
+    "dashboard": "Dashboard",
+    "subscribers": "Subscribers",
+    "templates": "Templates",
+    "send": "Send",
+    "reporting": "Reporting",
+    "settings": "Settings",
+    "users": "Users",
+    "profile": "Profile",
+    "uiDemo": "UI Demo"
+  },
+  "dashboardPage": {
+    "panel": "Admin Panel",
+    "welcome": "Welcome,",
+    "kpi": {
+      "subscribers": "Subscriber Count",
+      "templates": "Template Count",
+      "sendItems": "Send Records",
+      "successRate": "Success Rate"
+    },
+    "batchSummaryTitle": "Batch Status Summary",
+    "batch": {
+      "pending": "Pending",
+      "running": "Running",
+      "completed": "Completed",
+      "completedWithErrors": "Completed with Errors"
+    },
+    "recentActivities": "Recent Send Activities",
+    "detailReport": "Detailed Report",
+    "noRecent": "No send records yet.",
+    "status": {
+      "Success": "Success",
+      "Failed": "Failed",
+      "Processing": "Processing",
+      "Pending": "Pending"
+    },
+    "quickAccess": "Quick Access",
+    "links": {
+      "profile": "Profile",
+      "send": "Send",
+      "reporting": "Reporting",
+      "settings": "Settings",
+      "usersAdmin": "Users (Admin)"
+    }
+  },
+  "public": {
+    "nav": {
+      "subscribe": "Subscribe",
+      "panel": "Panel",
+      "logout": "Logout"
+    },
+    "subscribe": {
+      "pill": "New announcements • Campaigns • Content",
+      "heroTitle": "Join the MailMarketing Newsletter",
+      "heroDesc": "Join the newsletter to catch special offers, view new email templates, and simplify campaign tracking.",
+      "features": {
+        "earlyAccessTitle": "Early Access",
+        "earlyAccessDesc": "Get new campaigns before everyone else.",
+        "weeklyTitle": "Weekly Summary",
+        "weeklyDesc": "Short, clear, and regular email updates.",
+        "oneClickTitle": "One-Click Unsubscribe",
+        "oneClickDesc": "You can unsubscribe anytime."
+      },
+      "formTitle": "Subscription Form",
+      "formDesc": "Enter your details and we will send updates via email.",
+      "fullNameOptional": "Full Name (optional)",
+      "fullNameValidation": "Full name can be at most 200 characters.",
+      "email": "Email",
+      "validEmail": "Please enter a valid email.",
+      "submit": "Join Newsletter",
+      "saving": "Saving...",
+      "success": "Your subscription has been received."
+    }
+  },
+  "subscribersPage": {
+    "title": "Subscribers",
+    "newSubscriber": "New Subscriber",
+    "fullName": "Full Name",
+    "email": "Email",
+    "validEmail": "Please enter a valid email.",
+    "add": "Add",
+    "searchEmail": "Search email",
+    "filter": "Filter",
+    "delete": "Delete",
+    "empty": "No records found.",
+    "confirmDelete": "Delete {{email}}?",
+    "toast": {
+      "added": "Subscriber added.",
+      "deleted": "Subscriber deleted."
+    },
+    "table": {
+      "email": "Email",
+      "createdAt": "Created At",
+      "action": "Action"
+    }
+  },
+  "templatesPage": {
+    "newTemplate": "New Template",
+    "templateName": "Template Name",
+    "templateNameRequired": "Template name is required.",
+    "subject": "Subject",
+    "subjectRequired": "Subject is required.",
+    "contentRequired": "Content is required.",
+    "save": "Save",
+    "listTitle": "Template List",
+    "recordCount": "records",
+    "search": "Search name/subject",
+    "filterButton": "Filter",
+    "makePassive": "Make Passive",
+    "makeActive": "Make Active",
+    "delete": "Delete",
+    "noTemplates": "No templates yet.",
+    "confirmSave": "Save this template?",
+    "confirmDelete": "Delete {{name}}?",
+    "toast": {
+      "saved": "Template saved.",
+      "statusUpdated": "Template status updated.",
+      "deleted": "Template deleted."
+    },
+    "filter": {
+      "all": "All",
+      "active": "Active",
+      "passive": "Passive"
+    },
+    "table": {
+      "title": "Title",
+      "createdBy": "Created By",
+      "date": "Date",
+      "status": "Status",
+      "action": "Action"
+    }
+  },
+  "sendPage": {
+    "title": "Bulk Send",
+    "activeTemplate": "Active Template",
+    "selectTemplate": "Select template",
+    "sendToAllActive": "Send to all active subscribers",
+    "subscriberSelection": "Subscriber Selection",
+    "selectAtLeastOne": "Select at least one subscriber.",
+    "start": "Start Sending",
+    "confirmCreate": "Create send queue?",
+    "toast": {
+      "created": "Send queue created."
+    },
+    "table": {
+      "select": "Select",
+      "email": "Email"
+    }
+  },
+  "reportingPage": {
+    "title": "Send Report",
+    "refresh": "Refresh",
+    "empty": "No report records match the filter.",
+    "kpi": {
+      "subscribers": "Subscriber Count",
+      "templates": "Template Count",
+      "sendItems": "Send Records",
+      "failed": "Failed Sends"
+    },
+    "batch": {
+      "pending": "Pending",
+      "running": "Running",
+      "completed": "Completed",
+      "failed": "Completed with Errors"
+    },
+    "filters": {
+      "allTemplates": "All Templates",
+      "allStatuses": "All Statuses",
+      "email": "Email",
+      "search": "Search"
+    },
+    "table": {
+      "email": "Subscriber Email",
+      "template": "Template",
+      "sendTime": "Send Time",
+      "status": "Status",
+      "message": "Message"
+    }
+  },
+  "settingsPage": {
+    "smtpTitle": "SMTP Settings",
+    "host": "Host",
+    "hostRequired": "Host is required.",
+    "port": "Port",
+    "username": "Username",
+    "fromEmail": "Sender Email",
+    "validEmail": "Please enter a valid email.",
+    "password": "Password",
+    "useSsl": "Use SSL",
+    "save": "Save",
+    "testTitle": "Send Test Mail",
+    "testTarget": "Target email (if empty, your account)",
+    "testHint": "If left empty, the logged-in user's email is used.",
+    "testSend": "Send Test Mail",
+    "toast": {
+      "saved": "SMTP settings saved.",
+      "testSent": "Test email sent."
+    }
+  },
+  "usersPage": {
+    "title": "Users (Admin)",
+    "active": "Active",
+    "passive": "Passive",
+    "makePassive": "Set Passive",
+    "makeActive": "Set Active",
+    "empty": "No user records found.",
+    "toast": {
+      "statusUpdated": "User status updated."
+    },
+    "table": {
+      "fullName": "Full Name",
+      "email": "Email",
+      "role": "Role",
+      "status": "Active",
+      "createdAt": "Created At",
+      "action": "Action"
+    }
+  },
+  "profilePage": {
+    "title": "Profile",
+    "role": "Role",
+    "createdAt": "Created At",
+    "fullName": "Full Name",
+    "email": "Email",
+    "validEmail": "Please enter a valid email.",
+    "newPasswordOptional": "New Password (optional)",
+    "passwordHint": "If left empty, current password is preserved.",
+    "confirmPassword": "Confirm New Password",
+    "passwordMismatch": "Passwords do not match.",
+    "update": "Update",
+    "toast": {
+      "updated": "Profile updated."
+    }
+  }
+}

@@ -1,6 +1,7 @@
 ﻿# MailMarketing Monorepo
 
-MailMarketing, .NET 8 + Angular + PostgreSQL tabanli bir e-posta pazarlama uygulamasidir.
+MailMarketing, .NET 8 + Angular 19 + PostgreSQL tabanli bir e-posta pazarlama uygulamasidir.
+Frontend tarafta CoreUI/Bootstrap tabani korunurken PrimeNG'ye kademeli gecis yapilmistir.
 
 ## Mimari
 
@@ -8,7 +9,7 @@ MailMarketing, .NET 8 + Angular + PostgreSQL tabanli bir e-posta pazarlama uygul
 - `backend/src/MailMarketing.Data`: EF Core DbContext, migration, seed
 - `backend/src/MailMarketing.Business`: Is kurallari, JWT/AES, queue ve mail servisleri
 - `backend/src/MailMarketing.Api`: Controller, middleware, auth, swagger
-- `frontend/mail-marketing-ui`: Angular UI (CoreUI + Reactive Forms + Guard + Interceptor)
+- `frontend/mail-marketing-ui`: Angular UI (CoreUI + PrimeNG + Reactive Forms + Guard + Interceptor)
 
 ## Gereksinimler
 
@@ -74,8 +75,26 @@ dotnet run --project backend/src/MailMarketing.Api/MailMarketing.Api.csproj
 ```powershell
 cd frontend/mail-marketing-ui
 npm install
-ng serve
+npm run start
 ```
+
+## Frontend UI Durumu (PrimeNG Gecisi)
+
+Mevcut durumda admin panelde PrimeNG gecisi **kademeli** olarak uygulanmistir:
+
+- Admin shell yapisi: `AdminShellComponent`
+- PrimeNG demo route: `/admin/ui-demo`
+- PrimeNG'ye gecen admin sayfalari:
+  - `/admin/send`
+  - `/admin/users`
+  - `/admin/templates`
+  - `/admin/subscribers`
+
+Notlar:
+
+- CoreUI/Bootstrap tamamen kaldirilmamistir; birlikte calismaya devam eder.
+- Bu gecis asamasinda davranis/servis/endpoint degil, agirlikli olarak UI katmani degistirilmistir.
+- `users` sayfasinda `Rol` kolonu korunmustur (`user.role`).
 
 ## SMTP ve Batch Akisi
 
@@ -130,4 +149,37 @@ dotnet build backend/MailMarketing.sln
 # docker
 docker compose up --build -d
 docker compose ps
+
+# frontend
+cd frontend/mail-marketing-ui
+npm install
+npm run build
+```
+
+Frontend build notu:
+
+- `npm run build` su anda basarilidir.
+- Bilinen warningler:
+  - `quill-delta` CommonJS/ESM uyari
+  - Bazi CSS selector parse warningleri (build'i durdurmaz)
+
+## UI Tests (Selenium)
+
+Selenium testleri `frontend/mail-marketing-ui/tests/selenium/java` altinda Maven ile calisir.
+
+Gerekli ortam degiskenleri:
+
+- `APP_BASE_URL` (varsayilan: `http://localhost:4200`)
+- `ADMIN_EMAIL` (varsayilan: `admin@mailmarketing.local`)
+- `ADMIN_PASSWORD` (varsayilan: `Admin123!`)
+- `HEADLESS` (varsayilan: `true`, gorunur tarayici icin `false`)
+
+Calistirma:
+
+```powershell
+# UI ve backend ayakta olduktan sonra
+mvn -q test -f frontend/mail-marketing-ui/tests/selenium/java/pom.xml
+
+# veya repo scripti ile
+./scripts/selenium-run.ps1
 ```

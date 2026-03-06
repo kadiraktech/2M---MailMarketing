@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "mail-marketing-ui",
   "version": "0.0.1",
   "private": true,
@@ -16,9 +16,15 @@
     "@angular/platform-browser": "^19.2.0",
     "@angular/platform-browser-dynamic": "^19.2.0",
     "@angular/router": "^19.2.0",
+    "@angular/service-worker": "^19.2.0",
     "@coreui/coreui": "^5.2.0",
+    "@ngx-translate/core": "^17.0.0",
+    "@ngx-translate/http-loader": "^17.0.0",
+    "@primeuix/themes": "^1.0.5",
     "bootstrap-icons": "^1.11.3",
     "ngx-quill": "^27.0.2",
+    "primeicons": "^7.0.0",
+    "primeng": "^19.1.4",
     "quill": "^2.0.2",
     "rxjs": "~7.8.1",
     "tslib": "^2.3.0",
@@ -31,4 +37,3 @@
     "typescript": "~5.6.0"
   }
 }
-

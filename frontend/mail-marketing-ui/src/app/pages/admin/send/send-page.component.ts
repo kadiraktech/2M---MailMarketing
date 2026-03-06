@@ -1,6 +1,7 @@
-﻿import { Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ApiService, SubscriberDto, TemplateDto } from '../../../core/api.service';
 import { ToastService } from '../../../core/toast.service';
 import { ConfirmService } from '../../../core/confirm.service';
@@ -17,6 +18,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
   imports: [
     ReactiveFormsModule,
     NgIf,
+    TranslateModule,
     CardModule,
     DropdownModule,
     CheckboxModule,
@@ -46,17 +48,17 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     }
   `],
   template: `
-    <p-card header="Toplu Gönderim">
+    <p-card [header]="'sendPage.title' | translate">
       <form [formGroup]="form" (ngSubmit)="submit()" class="send-form">
         <div>
-          <label class="form-label">Aktif Şablon</label>
+          <label class="form-label">{{ 'sendPage.activeTemplate' | translate }}</label>
           <p-dropdown
             formControlName="templateId"
             [options]="templates"
             optionLabel="name"
             optionValue="id"
             [showClear]="true"
-            placeholder="Şablon seçiniz"
+            [placeholder]="'sendPage.selectTemplate' | translate"
             class="w-100">
             <ng-template let-t pTemplate="item">
               <span>{{ t.name }} - {{ t.subject }}</span>
@@ -73,11 +75,11 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
             formControlName="useAllActiveSubscribers"
             [binary]="true">
           </p-checkbox>
-          <label for="allSubs" class="mb-0">Tüm aktif abonelere gönder</label>
+          <label for="allSubs" class="mb-0">{{ 'sendPage.sendToAllActive' | translate }}</label>
         </div>
 
         <div *ngIf="!form.controls.useAllActiveSubscribers.value">
-          <label class="form-label">Abone Seçimi</label>
+          <label class="form-label">{{ 'sendPage.subscriberSelection' | translate }}</label>
           <div class="subscribers-box">
             <p-table
               [value]="subscribers"
@@ -90,8 +92,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
               dataKey="id">
               <ng-template pTemplate="header">
                 <tr>
-                  <th style="width: 72px;">Seç</th>
-                  <th>E-posta</th>
+                  <th style="width: 72px;">{{ 'sendPage.table.select' | translate }}</th>
+                  <th>{{ 'sendPage.table.email' | translate }}</th>
                 </tr>
               </ng-template>
               <ng-template pTemplate="body" let-s>
@@ -110,11 +112,11 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
               </ng-template>
             </p-table>
           </div>
-          <small class="text-danger" *ngIf="selectedSubscriberIds.size === 0">En az bir abone seçiniz.</small>
+          <small class="text-danger" *ngIf="selectedSubscriberIds.size === 0">{{ 'sendPage.selectAtLeastOne' | translate }}</small>
         </div>
 
         <div class="submit-row">
-          <button pButton type="submit" label="Gönderimi Başlat" [disabled]="!canSubmit || loading"></button>
+          <button pButton type="submit" [label]="'sendPage.start' | translate" [disabled]="!canSubmit || loading"></button>
           <p-progressSpinner *ngIf="loading" styleClass="spinner-inline" strokeWidth="6" fill="transparent"></p-progressSpinner>
         </div>
       </form>
@@ -132,7 +134,13 @@ export class SendPageComponent {
     useAllActiveSubscribers: [true]
   });
 
-  constructor(private fb: FormBuilder, private api: ApiService, private toast: ToastService, private confirm: ConfirmService) {
+  constructor(
+    private fb: FormBuilder,
+    private api: ApiService,
+    private toast: ToastService,
+    private confirm: ConfirmService,
+    private translate: TranslateService
+  ) {
     this.api.getActiveTemplates().subscribe((res) => (this.templates = res));
     this.api.getSubscribers().subscribe((res) => (this.subscribers = res.filter((x) => x.isActive)));
   }
@@ -151,7 +159,7 @@ export class SendPageComponent {
 
   submit() {
     if (!this.canSubmit || this.loading) return;
-    if (!this.confirm.confirm('Gönderim kaydı oluşturulsun mu?')) return;
+    if (!this.confirm.confirm(this.translate.instant('sendPage.confirmCreate'))) return;
 
     this.loading = true;
     const useAll = !!this.form.controls.useAllActiveSubscribers.value;
@@ -163,7 +171,7 @@ export class SendPageComponent {
     }).subscribe({
       next: () => {
         this.loading = false;
-        this.toast.show('Gönderim kaydı oluşturuldu. E-postalar arka planda işlenecek.', 'success');
+        this.toast.show(this.translate.instant('sendPage.toast.created'), 'success');
       },
       error: (err) => {
         this.loading = false;
@@ -172,5 +180,3 @@ export class SendPageComponent {
     });
   }
 }
-
-

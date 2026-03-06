@@ -36,6 +36,30 @@ services:
     ports:
       - "5000:5000"
 
+  redis:
+    image: redis:7
+    container_name: mailmarketing-redis
+    ports:
+      - "6379:6379"
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: mailmarketing-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+  sonarqube:
+    image: sonarqube:community
+    container_name: mailmarketing-sonarqube
+    ports:
+      - "9000:9000"
+    environment:
+      SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: "true"
+
   frontend:
     build:
       context: ./frontend/mail-marketing-ui

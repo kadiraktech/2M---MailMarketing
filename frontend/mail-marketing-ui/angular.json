@@ -1,4 +1,4 @@
-﻿{
+{
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "projects": {
@@ -19,12 +19,17 @@
             "styles": [
               "node_modules/@coreui/coreui/dist/css/coreui.min.css",
               "node_modules/bootstrap-icons/font/bootstrap-icons.css",
+              "node_modules/primeicons/primeicons.css",
               "node_modules/quill/dist/quill.snow.css",
               "src/styles.css"
             ]
           },
           "configurations": {
-            "production": { "optimization": true, "outputHashing": "all" },
+            "production": {
+              "optimization": true,
+              "outputHashing": "all",
+              "serviceWorker": "ngsw-config.json"
+            },
             "development": { "optimization": false, "sourceMap": true }
           },
           "defaultConfiguration": "production"
@@ -39,6 +44,9 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "1ddfbc61-a6d1-492c-a4eb-fdfbba72a231"
   }
 }
 

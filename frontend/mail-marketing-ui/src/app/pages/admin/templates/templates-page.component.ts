@@ -1,6 +1,7 @@
-﻿import { Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { DatePipe, NgIf } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { QuillModule } from 'ngx-quill';
 import { ApiService, TemplateDto } from '../../../core/api.service';
 import { ToastService } from '../../../core/toast.service';
@@ -17,6 +18,7 @@ import { TagModule } from 'primeng/tag';
   imports: [
     ReactiveFormsModule,
     NgIf,
+    TranslateModule,
     QuillModule,
     DatePipe,
     CardModule,
@@ -63,13 +65,13 @@ import { TagModule } from 'primeng/tag';
   `],
   template: `
     <div class="templates-layout">
-      <p-card header="Yeni Şablon">
+      <p-card [header]="'templatesPage.newTemplate' | translate">
         <form [formGroup]="form" (ngSubmit)="onSave()" class="d-grid gap-2 mt-2">
-          <input pInputText placeholder="Şablon Adı" formControlName="name" />
-          <small class="text-danger" *ngIf="submitted && form.controls.name.invalid">Şablon adı zorunludur.</small>
+          <input pInputText [placeholder]="'templatesPage.templateName' | translate" formControlName="name" />
+          <small class="text-danger" *ngIf="submitted && form.controls.name.invalid">{{ 'templatesPage.templateNameRequired' | translate }}</small>
 
-          <input pInputText placeholder="Konu" formControlName="subject" />
-          <small class="text-danger" *ngIf="submitted && form.controls.subject.invalid">Konu zorunludur.</small>
+          <input pInputText [placeholder]="'templatesPage.subject' | translate" formControlName="subject" />
+          <small class="text-danger" *ngIf="submitted && form.controls.subject.invalid">{{ 'templatesPage.subjectRequired' | translate }}</small>
 
           <quill-editor
             class="template-editor"
@@ -77,32 +79,32 @@ import { TagModule } from 'primeng/tag';
             theme="snow"
             (onContentChanged)="onEditorChanged($event)">
           </quill-editor>
-          <small class="text-danger" *ngIf="contentInvalid">İçerik boş olamaz.</small>
-          <button pButton type="submit" class="save-btn" label="Kaydet" [disabled]="saving"></button>
+          <small class="text-danger" *ngIf="contentInvalid">{{ 'templatesPage.contentRequired' | translate }}</small>
+          <button pButton type="submit" class="save-btn" [label]="'templatesPage.save' | translate" [disabled]="saving"></button>
         </form>
       </p-card>
 
       <p-card>
         <ng-template pTemplate="header">
           <div class="d-flex justify-content-between align-items-center">
-            <h2 class="h5 mb-0">Şablon Listesi</h2>
-            <span class="badge bg-info text-dark">{{ templates.length }} kayıt</span>
+            <h2 class="h5 mb-0">{{ 'templatesPage.listTitle' | translate }}</h2>
+            <span class="badge bg-info text-dark">{{ templates.length }} {{ 'templatesPage.recordCount' | translate }}</span>
           </div>
         </ng-template>
 
         <form [formGroup]="filterForm" (ngSubmit)="load()" class="filter-grid">
           <div class="search-col">
-            <input pInputText class="w-100" placeholder="Ad/Konu ara" formControlName="search" />
+            <input pInputText class="w-100" [placeholder]="'templatesPage.search' | translate" formControlName="search" />
           </div>
           <div>
             <select class="form-select" formControlName="isActive">
-              <option value="">Tümü</option>
-              <option [ngValue]="true">Aktif</option>
-              <option [ngValue]="false">Pasif</option>
+              <option value="">{{ 'templatesPage.filter.all' | translate }}</option>
+              <option [ngValue]="true">{{ 'templatesPage.filter.active' | translate }}</option>
+              <option [ngValue]="false">{{ 'templatesPage.filter.passive' | translate }}</option>
             </select>
           </div>
           <div class="button-col">
-            <button pButton type="submit" [outlined]="true" label="Filtrele"></button>
+            <button pButton type="submit" [outlined]="true" [label]="'templatesPage.filterButton' | translate"></button>
           </div>
         </form>
 
@@ -119,11 +121,11 @@ import { TagModule } from 'primeng/tag';
 
           <ng-template pTemplate="header">
             <tr>
-              <th>Başlık</th>
-              <th>Oluşturan</th>
-              <th>Tarih</th>
-              <th>Durum</th>
-              <th class="text-end">İşlem</th>
+              <th>{{ 'templatesPage.table.title' | translate }}</th>
+              <th>{{ 'templatesPage.table.createdBy' | translate }}</th>
+              <th>{{ 'templatesPage.table.date' | translate }}</th>
+              <th>{{ 'templatesPage.table.status' | translate }}</th>
+              <th class="text-end">{{ 'templatesPage.table.action' | translate }}</th>
             </tr>
           </ng-template>
 
@@ -136,7 +138,7 @@ import { TagModule } from 'primeng/tag';
               <td>{{ t.createdByUserName }}</td>
               <td>{{ t.createdAtUtc | date: 'short' }}</td>
               <td>
-                <p-tag [value]="t.isActive ? 'Aktif' : 'Pasif'" [severity]="t.isActive ? 'success' : 'secondary'"></p-tag>
+                <p-tag [value]="t.isActive ? ('templatesPage.filter.active' | translate) : ('templatesPage.filter.passive' | translate)" [severity]="t.isActive ? 'success' : 'secondary'"></p-tag>
               </td>
               <td class="text-end d-flex justify-content-end gap-2">
                 <button
@@ -145,7 +147,7 @@ import { TagModule } from 'primeng/tag';
                   size="small"
                   [outlined]="true"
                   severity="warn"
-                  [label]="t.isActive ? 'Pasif Yap' : 'Aktif Yap'"
+                  [label]="t.isActive ? ('templatesPage.makePassive' | translate) : ('templatesPage.makeActive' | translate)"
                   (click)="toggleActive(t)">
                 </button>
                 <button
@@ -154,7 +156,7 @@ import { TagModule } from 'primeng/tag';
                   size="small"
                   [outlined]="true"
                   severity="danger"
-                  label="Sil"
+                  [label]="'templatesPage.delete' | translate"
                   (click)="remove(t)">
                 </button>
               </td>
@@ -163,7 +165,7 @@ import { TagModule } from 'primeng/tag';
         </p-table>
 
         <ng-template #noTemplates>
-          <div class="alert alert-light border mb-0">Henüz şablon yok.</div>
+          <div class="alert alert-light border mb-0">{{ 'templatesPage.noTemplates' | translate }}</div>
         </ng-template>
       </p-card>
     </div>
@@ -191,7 +193,8 @@ export class TemplatesPageComponent {
     private fb: FormBuilder,
     private api: ApiService,
     private toast: ToastService,
-    private confirm: ConfirmService
+    private confirm: ConfirmService,
+    private translate: TranslateService
   ) {
     this.load();
   }
@@ -221,7 +224,7 @@ export class TemplatesPageComponent {
     if (this.form.invalid || this.isEditorEmpty()) {
       return;
     }
-    if (!this.confirm.confirm('Şablon kaydedilsin mi?')) return;
+    if (!this.confirm.confirm(this.translate.instant('templatesPage.confirmSave'))) return;
 
     this.saving = true;
     const raw = this.form.getRawValue();
@@ -232,7 +235,7 @@ export class TemplatesPageComponent {
     }).subscribe({
       next: () => {
         this.saving = false;
-        this.toast.show('Şablon kaydedildi.', 'success');
+        this.toast.show(this.translate.instant('templatesPage.toast.saved'), 'success');
         this.form.reset({ name: '', subject: '', htmlContent: '' });
         this.editorHtml = '';
         this.editorText = '';
@@ -265,7 +268,7 @@ export class TemplatesPageComponent {
   toggleActive(template: TemplateDto) {
     this.api.setTemplateActive(template.id, !template.isActive).subscribe({
       next: () => {
-        this.toast.show('Şablon durumu güncellendi.', 'success');
+        this.toast.show(this.translate.instant('templatesPage.toast.statusUpdated'), 'success');
         this.load();
       },
       error: (err) => this.toast.show(getApiErrorMessage(err), 'danger')
@@ -273,15 +276,14 @@ export class TemplatesPageComponent {
   }
 
   remove(template: TemplateDto) {
-    if (!this.confirm.confirm(`${template.name} şablonu silinsin mi?`)) return;
+    if (!this.confirm.confirm(this.translate.instant('templatesPage.confirmDelete', { name: template.name }))) return;
 
     this.api.deleteTemplate(template.id).subscribe({
       next: () => {
-        this.toast.show('Şablon silindi.', 'success');
+        this.toast.show(this.translate.instant('templatesPage.toast.deleted'), 'success');
         this.load();
       },
       error: (err) => this.toast.show(getApiErrorMessage(err), 'danger')
     });
   }
 }
-

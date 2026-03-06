@@ -1,0 +1,246 @@
+﻿{
+  "dashboard": "Dashboard",
+  "refresh": "Yenile",
+  "subscribers": "Aboneler",
+  "templates": "Şablonlar",
+  "admin": {
+    "title": "MailMarketing Admin"
+  },
+  "shell": {
+    "public": "Genel",
+    "logout": "Çıkış",
+    "navigation": "Navigasyon",
+    "dashboard": "Dashboard",
+    "subscribers": "Aboneler",
+    "templates": "Şablonlar",
+    "send": "Gönderim",
+    "reporting": "Raporlama",
+    "settings": "Ayarlar",
+    "users": "Kullanıcılar",
+    "profile": "Profil",
+    "uiDemo": "UI Demo"
+  },
+  "dashboardPage": {
+    "panel": "Yönetim Paneli",
+    "welcome": "Hoş geldiniz,",
+    "kpi": {
+      "subscribers": "Abone Sayısı",
+      "templates": "Şablon Sayısı",
+      "sendItems": "Gönderim Kayıtları",
+      "successRate": "Başarı Oranı"
+    },
+    "batchSummaryTitle": "Batch Durum Özeti",
+    "batch": {
+      "pending": "Bekleyen",
+      "running": "Çalışan",
+      "completed": "Tamamlanan",
+      "completedWithErrors": "Hatalı Tamamlanan"
+    },
+    "recentActivities": "Son Gönderim Aktiviteleri",
+    "detailReport": "Detay Rapor",
+    "noRecent": "Henüz gönderim kaydı yok.",
+    "status": {
+      "Success": "Başarılı",
+      "Failed": "Başarısız",
+      "Processing": "İşleniyor",
+      "Pending": "Beklemede"
+    },
+    "quickAccess": "Hızlı Erişim",
+    "links": {
+      "profile": "Profil",
+      "send": "Gönderim",
+      "reporting": "Raporlama",
+      "settings": "Ayarlar",
+      "usersAdmin": "Kullanıcılar (Admin)"
+    }
+  },
+  "public": {
+    "nav": {
+      "subscribe": "Abone Ol",
+      "panel": "Panel",
+      "logout": "Çıkış"
+    },
+    "subscribe": {
+      "pill": "Yeni duyurular • Kampanyalar • İçerikler",
+      "heroTitle": "MailMarketing Bültenine Katılın",
+      "heroDesc": "Özel fırsatları kaçırmamak, yeni e-posta şablonlarını görmek ve kampanya takibini kolaylaştırmak için bültene katılın.",
+      "features": {
+        "earlyAccessTitle": "Erken Erişim",
+        "earlyAccessDesc": "Yeni kampanyaları herkesten önce alın.",
+        "weeklyTitle": "Haftalık Özet",
+        "weeklyDesc": "Kısa, net ve düzenli e-posta akışı.",
+        "oneClickTitle": "Tek Tık Çıkış",
+        "oneClickDesc": "İstediğiniz zaman abonelikten ayrılabilirsiniz."
+      },
+      "formTitle": "Abonelik Formu",
+      "formDesc": "Bilgilerinizi girin, güncellemeleri e-posta ile gönderelim.",
+      "fullNameOptional": "Ad Soyad (opsiyonel)",
+      "fullNameValidation": "Ad Soyad en fazla 200 karakter olabilir.",
+      "email": "E-posta",
+      "validEmail": "Geçerli bir e-posta giriniz.",
+      "submit": "Bültene Katıl",
+      "saving": "Kaydediliyor...",
+      "success": "Aboneliğiniz alındı."
+    }
+  },
+  "subscribersPage": {
+    "title": "Aboneler",
+    "newSubscriber": "Yeni Abone",
+    "fullName": "Ad Soyad",
+    "email": "E-posta",
+    "validEmail": "Geçerli bir e-posta giriniz.",
+    "add": "Ekle",
+    "searchEmail": "E-posta ara",
+    "filter": "Filtrele",
+    "delete": "Sil",
+    "empty": "Kayıt bulunamadı.",
+    "confirmDelete": "{{email}} silinsin mi?",
+    "toast": {
+      "added": "Abone eklendi.",
+      "deleted": "Abone silindi."
+    },
+    "table": {
+      "email": "E-posta",
+      "createdAt": "Kayıt Zamanı",
+      "action": "İşlem"
+    }
+  },
+  "templatesPage": {
+    "newTemplate": "Yeni Şablon",
+    "templateName": "Şablon Adı",
+    "templateNameRequired": "Şablon adı zorunludur.",
+    "subject": "Konu",
+    "subjectRequired": "Konu zorunludur.",
+    "contentRequired": "İçerik zorunludur.",
+    "save": "Kaydet",
+    "listTitle": "Şablon Listesi",
+    "recordCount": "kayıt",
+    "search": "Ad/Konu ara",
+    "filterButton": "Filtrele",
+    "makePassive": "Pasif Et",
+    "makeActive": "Aktif Et",
+    "delete": "Sil",
+    "noTemplates": "Henüz şablon yok.",
+    "confirmSave": "Kaydedilsin mi?",
+    "confirmDelete": "{{name}} silinsin mi?",
+    "toast": {
+      "saved": "Şablon kaydedildi.",
+      "statusUpdated": "Şablon durumu güncellendi.",
+      "deleted": "Şablon silindi."
+    },
+    "filter": {
+      "all": "Tümü",
+      "active": "Aktif",
+      "passive": "Pasif"
+    },
+    "table": {
+      "title": "Başlık",
+      "createdBy": "Oluşturan",
+      "date": "Tarih",
+      "status": "Durum",
+      "action": "İşlem"
+    }
+  },
+  "sendPage": {
+    "title": "Toplu Gönderim",
+    "activeTemplate": "Aktif Şablon",
+    "selectTemplate": "Şablon seçiniz",
+    "sendToAllActive": "Tüm aktif abonelere gönder",
+    "subscriberSelection": "Abone Seçimi",
+    "selectAtLeastOne": "En az bir abone seçiniz.",
+    "start": "Gönderimi Başlat",
+    "confirmCreate": "Gönderim kuyruğu oluşturulsun mu?",
+    "toast": {
+      "created": "Gönderim kuyruğu oluşturuldu."
+    },
+    "table": {
+      "select": "Seç",
+      "email": "E-posta"
+    }
+  },
+  "reportingPage": {
+    "title": "Gönderim Raporu",
+    "refresh": "Yenile",
+    "empty": "Filtreye uygun rapor kaydı bulunamadı.",
+    "kpi": {
+      "subscribers": "Abone Sayısı",
+      "templates": "Şablon Sayısı",
+      "sendItems": "Gönderim Kayıtları",
+      "failed": "Hatalı Gönderim"
+    },
+    "batch": {
+      "pending": "Bekleyen",
+      "running": "Çalışan",
+      "completed": "Tamamlanan",
+      "failed": "Hatalı Tamamlanan"
+    },
+    "filters": {
+      "allTemplates": "Tüm Şablonlar",
+      "allStatuses": "Tüm Durumlar",
+      "email": "E-posta",
+      "search": "Ara"
+    },
+    "table": {
+      "email": "Abone E-posta",
+      "template": "Şablon",
+      "sendTime": "Gönderim Zamanı",
+      "status": "Durum",
+      "message": "Mesaj"
+    }
+  },
+  "settingsPage": {
+    "smtpTitle": "SMTP Ayarları",
+    "host": "Host",
+    "hostRequired": "Host zorunludur.",
+    "port": "Port",
+    "username": "Kullanıcı Adı",
+    "fromEmail": "Gönderen E-posta",
+    "validEmail": "Geçerli bir e-posta giriniz.",
+    "password": "Şifre",
+    "useSsl": "SSL kullan",
+    "save": "Kaydet",
+    "testTitle": "Test Mail Gönder",
+    "testTarget": "Hedef e-posta (boşsa hesabınız)",
+    "testHint": "Boş bırakırsanız giriş yapan kullanıcının e-postası kullanılır.",
+    "testSend": "Test Mail Gönder",
+    "toast": {
+      "saved": "SMTP ayarları kaydedildi.",
+      "testSent": "Test e-postası gönderildi."
+    }
+  },
+  "usersPage": {
+    "title": "Kullanıcılar (Admin)",
+    "active": "Aktif",
+    "passive": "Pasif",
+    "makePassive": "Pasif Yap",
+    "makeActive": "Aktif Yap",
+    "empty": "Kullanıcı kaydı bulunamadı.",
+    "toast": {
+      "statusUpdated": "Kullanıcı durumu güncellendi."
+    },
+    "table": {
+      "fullName": "Ad Soyad",
+      "email": "E-posta",
+      "role": "Rol",
+      "status": "Aktif",
+      "createdAt": "Kayıt Tarihi",
+      "action": "İşlem"
+    }
+  },
+  "profilePage": {
+    "title": "Profil",
+    "role": "Rol",
+    "createdAt": "Kayıt Tarihi",
+    "fullName": "Ad Soyad",
+    "email": "E-posta",
+    "validEmail": "Geçerli bir e-posta giriniz.",
+    "newPasswordOptional": "Yeni Şifre (opsiyonel)",
+    "passwordHint": "Boş bırakılırsa mevcut şifre korunur.",
+    "confirmPassword": "Yeni Şifre Tekrar",
+    "passwordMismatch": "Şifreler eşleşmiyor.",
+    "update": "Güncelle",
+    "toast": {
+      "updated": "Profil güncellendi."
+    }
+  }
+}

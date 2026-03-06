@@ -4,28 +4,52 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../core/auth.service';
 import { ToastService } from '../../../core/toast.service';
 import { getApiErrorMessage } from '../../../core/api-error.util';
+import { CardModule } from 'primeng/card';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @Component({
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf],
+  imports: [ReactiveFormsModule, NgIf, CardModule, InputTextModule, ButtonModule, ProgressSpinnerModule],
+  styles: [`
+    .forgot-form {
+      display: grid;
+      gap: .5rem;
+      margin-top: .5rem;
+    }
+    .action-row {
+      display: flex;
+      gap: .5rem;
+      align-items: center;
+    }
+    .spinner-inline {
+      width: 20px;
+      height: 20px;
+    }
+  `],
   template: `
-    <div class="card p-4">
-      <h2>Şifremi Unuttum</h2>
-
-      <form *ngIf="step === 1" [formGroup]="emailForm" (ngSubmit)="verifyEmail()" class="d-grid gap-2 mt-2">
-        <input class="form-control" placeholder="E-posta" formControlName="email" />
+    <p-card header="Şifremi Unuttum">
+      <form *ngIf="step === 1" [formGroup]="emailForm" (ngSubmit)="verifyEmail()" class="forgot-form">
+        <input pInputText placeholder="E-posta" formControlName="email" />
         <small class="text-danger" *ngIf="emailForm.controls.email.touched && emailForm.controls.email.invalid">Geçerli e-posta giriniz.</small>
-        <button class="btn btn-warning" [disabled]="emailForm.invalid || loading">E-postayı Doğrula</button>
+        <div class="action-row">
+          <button pButton type="submit" label="E-postayı Doğrula" severity="warn" [disabled]="emailForm.invalid || loading"></button>
+          <p-progressSpinner *ngIf="loading" styleClass="spinner-inline" strokeWidth="6" fill="transparent"></p-progressSpinner>
+        </div>
       </form>
 
-      <form *ngIf="step === 2" [formGroup]="resetForm" (ngSubmit)="resetPassword()" class="d-grid gap-2 mt-2">
-        <input class="form-control" type="password" placeholder="Yeni Şifre" formControlName="newPassword" />
+      <form *ngIf="step === 2" [formGroup]="resetForm" (ngSubmit)="resetPassword()" class="forgot-form">
+        <input pInputText type="password" placeholder="Yeni Şifre" formControlName="newPassword" />
         <small class="text-muted">En az 8 karakter, büyük-küçük harf ve rakam içermelidir.</small>
-        <input class="form-control" type="password" placeholder="Yeni Şifre Tekrar" formControlName="confirmPassword" />
+        <input pInputText type="password" placeholder="Yeni Şifre Tekrar" formControlName="confirmPassword" />
         <small class="text-danger" *ngIf="passwordMismatch">Şifre ve tekrarı eşleşmiyor.</small>
-        <button class="btn btn-primary" [disabled]="resetForm.invalid || passwordMismatch || loading">Şifreyi Güncelle</button>
+        <div class="action-row">
+          <button pButton type="submit" label="Şifreyi Güncelle" [disabled]="resetForm.invalid || passwordMismatch || loading"></button>
+          <p-progressSpinner *ngIf="loading" styleClass="spinner-inline" strokeWidth="6" fill="transparent"></p-progressSpinner>
+        </div>
       </form>
-    </div>
+    </p-card>
   `
 })
 export class AdminForgotPasswordPageComponent {
@@ -90,4 +114,5 @@ export class AdminForgotPasswordPageComponent {
     });
   }
 }
+
 

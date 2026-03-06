@@ -1,6 +1,7 @@
-﻿import { Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { DatePipe, NgIf } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ApiService, SubscriberDto } from '../../../core/api.service';
 import { ToastService } from '../../../core/toast.service';
 import { ConfirmService } from '../../../core/confirm.service';
@@ -12,7 +13,7 @@ import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   standalone: true,
-  imports: [NgIf, DatePipe, ReactiveFormsModule, CardModule, TableModule, ButtonModule, InputTextModule],
+  imports: [NgIf, DatePipe, ReactiveFormsModule, TranslateModule, CardModule, TableModule, ButtonModule, InputTextModule],
   styles: [`
     .subscribers-layout {
       display: grid;
@@ -43,24 +44,24 @@ import { InputTextModule } from 'primeng/inputtext';
     }
   `],
   template: `
-    <p-card header="Aboneler">
+    <p-card [header]="'subscribersPage.title' | translate">
       <div class="subscribers-layout">
         <div>
-          <h3 class="h6 mb-3">Yeni Abone</h3>
+          <h3 class="h6 mb-3">{{ 'subscribersPage.newSubscriber' | translate }}</h3>
           <form [formGroup]="createForm" (ngSubmit)="create()" class="d-grid gap-2">
-            <input pInputText placeholder="Ad Soyad" formControlName="fullName" />
-            <input pInputText placeholder="E-posta" formControlName="email" />
+            <input pInputText [placeholder]="'subscribersPage.fullName' | translate" formControlName="fullName" />
+            <input pInputText [placeholder]="'subscribersPage.email' | translate" formControlName="email" />
             <small class="text-danger" *ngIf="createForm.controls.email.touched && createForm.controls.email.invalid">
-              Geçerli e-posta giriniz.
+              {{ 'subscribersPage.validEmail' | translate }}
             </small>
-            <button pButton type="submit" label="Ekle" severity="success" [disabled]="createForm.invalid"></button>
+            <button pButton type="submit" [label]="'subscribersPage.add' | translate" severity="success" [disabled]="createForm.invalid"></button>
           </form>
         </div>
 
         <div>
           <form [formGroup]="filterForm" (ngSubmit)="load()" class="subscribers-filter">
             <div class="email-col">
-              <input pInputText class="w-100" placeholder="E-posta ara" formControlName="email" />
+              <input pInputText class="w-100" [placeholder]="'subscribersPage.searchEmail' | translate" formControlName="email" />
             </div>
             <div>
               <input pInputText class="w-100" type="date" formControlName="createdFrom" />
@@ -69,7 +70,7 @@ import { InputTextModule } from 'primeng/inputtext';
               <input pInputText class="w-100" type="date" formControlName="createdTo" />
             </div>
             <div class="btn-col">
-              <button pButton type="submit" label="Filtrele" [outlined]="true"></button>
+              <button pButton type="submit" [label]="'subscribersPage.filter' | translate" [outlined]="true"></button>
             </div>
           </form>
 
@@ -86,9 +87,9 @@ import { InputTextModule } from 'primeng/inputtext';
 
             <ng-template pTemplate="header">
               <tr>
-                <th>E-posta</th>
-                <th>Kayıt Zamanı</th>
-                <th class="text-end">İşlem</th>
+                <th>{{ 'subscribersPage.table.email' | translate }}</th>
+                <th>{{ 'subscribersPage.table.createdAt' | translate }}</th>
+                <th class="text-end">{{ 'subscribersPage.table.action' | translate }}</th>
               </tr>
             </ng-template>
 
@@ -106,7 +107,7 @@ import { InputTextModule } from 'primeng/inputtext';
                     size="small"
                     [outlined]="true"
                     severity="danger"
-                    label="Sil"
+                    [label]="'subscribersPage.delete' | translate"
                     (click)="remove(s)">
                   </button>
                 </td>
@@ -115,7 +116,7 @@ import { InputTextModule } from 'primeng/inputtext';
           </p-table>
 
           <ng-template #emptyState>
-            <div class="alert alert-light border mb-0">Kayıt bulunamadı.</div>
+            <div class="alert alert-light border mb-0">{{ 'subscribersPage.empty' | translate }}</div>
           </ng-template>
         </div>
       </div>
@@ -140,7 +141,8 @@ export class SubscribersPageComponent {
     private fb: FormBuilder,
     private api: ApiService,
     private toast: ToastService,
-    private confirm: ConfirmService
+    private confirm: ConfirmService,
+    private translate: TranslateService
   ) {
     this.load();
   }
@@ -159,7 +161,7 @@ export class SubscribersPageComponent {
 
     this.api.createSubscriber(this.createForm.getRawValue()).subscribe({
       next: () => {
-        this.toast.show('Abone eklendi.', 'success');
+        this.toast.show(this.translate.instant('subscribersPage.toast.added'), 'success');
         this.createForm.reset({ fullName: '', email: '' });
         this.load();
       },
@@ -168,15 +170,14 @@ export class SubscribersPageComponent {
   }
 
   remove(subscriber: SubscriberDto) {
-    if (!this.confirm.confirm(`${subscriber.email} silinsin mi?`)) return;
+    if (!this.confirm.confirm(this.translate.instant('subscribersPage.confirmDelete', { email: subscriber.email }))) return;
 
     this.api.deleteSubscriber(subscriber.id).subscribe({
       next: () => {
-        this.toast.show('Abone silindi.', 'success');
+        this.toast.show(this.translate.instant('subscribersPage.toast.deleted'), 'success');
         this.load();
       },
       error: (err) => this.toast.show(getApiErrorMessage(err), 'danger')
     });
   }
 }
-

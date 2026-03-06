@@ -5,6 +5,13 @@ backend/**/obj/
 # Frontend
 frontend/mail-marketing-ui/node_modules/
 frontend/mail-marketing-ui/dist/
+frontend/mail-marketing-ui/.angular/
+frontend/mail-marketing-ui/devserver.log
+frontend/mail-marketing-ui/tests/selenium/java/target/
+
+# Sonar
+.sonarqube/
+backend/.sonarqube/
 
 # IDE
 .vscode/
