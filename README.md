@@ -1,185 +1,202 @@
-﻿# MailMarketing Monorepo
+# 2M - MailMarketing
 
-MailMarketing, .NET 8 + Angular 19 + PostgreSQL tabanli bir e-posta pazarlama uygulamasidir.
-Frontend tarafta CoreUI/Bootstrap tabani korunurken PrimeNG'ye kademeli gecis yapilmistir.
+![Version](https://img.shields.io/badge/version-1.0.0-blue)
+![Angular](https://img.shields.io/badge/frontend-angular-red)
+![Docker](https://img.shields.io/badge/docker-ready-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
 
-## Mimari
+Modern Email Marketing Platform with Admin Dashboard and Subscriber Management.
 
-- `backend/src/MailMarketing.Domain`: Entity ve enum tanimlari
-- `backend/src/MailMarketing.Data`: EF Core DbContext, migration, seed
-- `backend/src/MailMarketing.Business`: Is kurallari, JWT/AES, queue ve mail servisleri
-- `backend/src/MailMarketing.Api`: Controller, middleware, auth, swagger
-- `frontend/mail-marketing-ui`: Angular UI (CoreUI + PrimeNG + Reactive Forms + Guard + Interceptor)
+2M - MailMarketing is a full-stack email marketing management system that provides subscriber management, campaign infrastructure, and a modern multilingual admin interface.
 
-## Gereksinimler
+---
 
-- .NET SDK 8
-- Node.js 20+
-- Docker Desktop
+# Features
 
-## Ortam Degiskenleri
+Admin Panel
 
-`.env.example` dosyasini `.env` olarak kopyalayin.
+- Dashboard analytics
+- Subscriber management
+- Template management
+- Campaign sending
+- Reporting and analytics
+- System settings
+- User management
 
-`APP_AES_KEY` zorunludur ve **Base64 formatinda 32-byte** olmalidir.
+Localization
 
-PowerShell ile anahtar uretimi:
+- TR / EN language switching
+- ngx-translate based architecture
+- reactive language toggle
+- centralized I18nService
 
-```powershell
-$bytes = New-Object byte[] 32
-[System.Security.Cryptography.RandomNumberGenerator]::Fill($bytes)
-[Convert]::ToBase64String($bytes)
+Subscriber System
+
+- Public subscription page
+- Subscriber registration
+- Subscriber filtering
+- Subscriber list management
+
+Infrastructure
+
+- Docker development environment
+- PostgreSQL database
+- Angular admin frontend
+- REST backend API
+
+---
+
+# Admin Interface
+
+The project includes a modern Angular-based admin panel.
+
+Admin pages include:
+
+- Dashboard
+- Subscribers
+- Templates
+- Send
+- Reporting
+- Settings
+- Users
+- Profile
+
+The admin interface supports dynamic language switching between Turkish and English.
+
+---
+
+# Public Subscription Page
+
+A public-facing subscription page allows users to join the mailing list.
+
+Features include:
+
+- Newsletter signup
+- Email capture
+- Campaign updates
+
+---
+
+# Technology Stack
+
+Frontend
+
+- Angular
+- PrimeNG
+- TypeScript
+
+Backend
+
+- .NET API
+- REST architecture
+
+Database
+
+- PostgreSQL
+
+Infrastructure
+
+- Docker
+- Docker Compose
+
+Localization
+
+- ngx-translate
+
+Testing
+
+- Selenium runtime verification
+
+---
+
+# Project Structure
+
+frontend/
+
+Angular admin UI
+
+backend/
+
+API server
+
+docker-compose.yml
+
+Local development environment
+
+---
+
+# Running the Project
+
+Start the entire stack using Docker.
+
+```bash
+docker compose up -d
 ```
 
-Uretilen degeri `.env` dosyasindaki `APP_AES_KEY=` satirina yazin.
+Then access:
 
-Opsiyonel seed sifre degiskenleri:
+Admin Panel
 
-- `SEED_ADMIN_PASSWORD`
-- `SEED_USER_PASSWORD`
+http://localhost:4200/admin
 
-## Docker ile Calistirma
+Public Subscription Page
 
-```powershell
-docker compose up --build -d
-docker compose ps
-```
+http://localhost:4200/subscribe
 
-Servisler:
+---
 
-- API: `http://localhost:5000`
-- UI: `http://localhost:4200`
-- PostgreSQL: `localhost:5432`
+# Development
 
-Eger eski/bozuk migration state kaynakli backend cikislari gorurseniz:
+Frontend development:
 
-```powershell
-docker compose down -v
-docker compose up --build -d
-```
-
-## Local Calistirma
-
-### Backend
-
-```powershell
-$env:APP_AES_KEY="<32-byte-base64-key>"
-$env:ConnectionStrings__Default="Host=localhost;Port=5432;Database=mailmarketing;Username=postgres;Password=postgres"
-dotnet restore backend/MailMarketing.sln
-dotnet build backend/MailMarketing.sln
-dotnet run --project backend/src/MailMarketing.Api/MailMarketing.Api.csproj
-```
-
-### Frontend
-
-```powershell
+```bash
 cd frontend/mail-marketing-ui
 npm install
-npm run start
+npm start
 ```
 
-## Frontend UI Durumu (PrimeNG Gecisi)
+Backend development depends on .NET runtime.
 
-Mevcut durumda admin panelde PrimeNG gecisi **kademeli** olarak uygulanmistir:
+---
 
-- Admin shell yapisi: `AdminShellComponent`
-- PrimeNG demo route: `/admin/ui-demo`
-- PrimeNG'ye gecen admin sayfalari:
-  - `/admin/send`
-  - `/admin/users`
-  - `/admin/templates`
-  - `/admin/subscribers`
+# Localization System
 
-Notlar:
+The application uses ngx-translate with a centralized language service.
 
-- CoreUI/Bootstrap tamamen kaldirilmamistir; birlikte calismaya devam eder.
-- Bu gecis asamasinda davranis/servis/endpoint degil, agirlikli olarak UI katmani degistirilmistir.
-- `users` sayfasinda `Rol` kolonu korunmustur (`user.role`).
+Language toggle buttons allow instant switching between Turkish and English across the admin interface.
 
-## SMTP ve Batch Akisi
+Translation files are located in:
 
-SMTP ayari olmadan kuyruk isleri olusturulsa bile gonderim basarili olmaz.
+`src/assets/i18n/`
 
-1. `/admin/settings` ekraninda SMTP bilgilerini kaydet.
-2. `/admin/templates` ekraninda bir template olustur.
-3. `/admin/send` ekraninda template ID ile `Batch Olustur`.
+---
 
-`Batch`, tek seferde birden fazla aboneye gonderim icin olusturulan toplu is kaydidir.
-Sistem her batch icin:
+# Version History
 
-- `SendBatch` kaydi olusturur
-- her alici icin `SendItem` olusturur
-- `SendJobQueue` ile background worker'a kuyruklar
+## v1.0.0
 
-Sonuc takibi: `/admin/reporting`.
+Initial production-ready version.
 
-## Migration Akisi (Yeniden Uretilebilir)
+Includes:
 
-> Migration dosyalari elle degistirilmemeli.
+- Admin dashboard
+- Subscriber management
+- Campaign infrastructure
+- Multilingual UI (TR/EN)
+- Docker development environment
 
-```powershell
-dotnet ef migrations add <MigrationName> --project backend/src/MailMarketing.Data --startup-project backend/src/MailMarketing.Api --output-dir Persistence/Migrations
-dotnet ef database update --project backend/src/MailMarketing.Data --startup-project backend/src/MailMarketing.Api
-```
+---
 
-Development ortaminda API acilisinda otomatik:
+# License
 
-- `Database.MigrateAsync()`
-- `DbSeeder.SeedAsync(...)`
+MIT License
 
-## Hizli Test
+---
 
-- Swagger: `http://localhost:5000/swagger`
-- UI: `http://localhost:4200`
-- Admin login: `admin@mailmarketing.local / Admin123!`
-- User login: `user@mailmarketing.local / User123!`
+# Author
 
-## Dogrulama Komutlari
+Kadir Ak
 
-```powershell
-# opsiyonel format
-dotnet format backend/MailMarketing.sln
+GitHub
 
-# test
-dotnet test backend/MailMarketing.sln
-
-# build
-dotnet build backend/MailMarketing.sln
-
-# docker
-docker compose up --build -d
-docker compose ps
-
-# frontend
-cd frontend/mail-marketing-ui
-npm install
-npm run build
-```
-
-Frontend build notu:
-
-- `npm run build` su anda basarilidir.
-- Bilinen warningler:
-  - `quill-delta` CommonJS/ESM uyari
-  - Bazi CSS selector parse warningleri (build'i durdurmaz)
-
-## UI Tests (Selenium)
-
-Selenium testleri `frontend/mail-marketing-ui/tests/selenium/java` altinda Maven ile calisir.
-
-Gerekli ortam degiskenleri:
-
-- `APP_BASE_URL` (varsayilan: `http://localhost:4200`)
-- `ADMIN_EMAIL` (varsayilan: `admin@mailmarketing.local`)
-- `ADMIN_PASSWORD` (varsayilan: `Admin123!`)
-- `HEADLESS` (varsayilan: `true`, gorunur tarayici icin `false`)
-
-Calistirma:
-
-```powershell
-# UI ve backend ayakta olduktan sonra
-mvn -q test -f frontend/mail-marketing-ui/tests/selenium/java/pom.xml
-
-# veya repo scripti ile
-./scripts/selenium-run.ps1
-```
+https://github.com/kadiraktech
