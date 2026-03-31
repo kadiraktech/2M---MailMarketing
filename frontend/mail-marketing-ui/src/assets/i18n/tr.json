@@ -23,11 +23,37 @@
   "dashboardPage": {
     "panel": "Yönetim Paneli",
     "welcome": "Hoş geldiniz,",
+    "liveTitle": "Canlı Operasyon Dashboard",
+    "lastUpdated": "Son güncelleme:",
+    "loading": "Canlı dashboard verileri yükleniyor...",
+    "refreshError": "Dashboard verileri yenilenemedi.",
     "kpi": {
       "subscribers": "Abone Sayısı",
       "templates": "Şablon Sayısı",
       "sendItems": "Gönderim Kayıtları",
       "successRate": "Başarı Oranı"
+    },
+    "sections": {
+      "queue": "Kuyruk",
+      "sending": "Gönderim",
+      "health": "Sistem Sağlığı",
+      "recentActivity": "Son Aktivite"
+    },
+    "queue": {
+      "totalQueuedJobs": "Kuyruktaki İşler",
+      "totalQueuedJobsHint": "Worker tarafından alınmayı bekleyen işler.",
+      "processingJobs": "İşlenen İşler",
+      "processingJobsHint": "Şu anda worker tarafından işlenen işler.",
+      "retryPendingJobs": "Retry Bekleyen",
+      "retryPendingJobsHint": "Yeniden deneme için sırada bekleyen işler."
+    },
+    "sending": {
+      "activeSendOperations": "Aktif Gönderimler",
+      "activeSendOperationsHint": "Halen işi devam eden çalışan batch'ler.",
+      "successfulSendCount": "Başarılı Gönderimler",
+      "successfulSendCountHint": "Başarıyla tamamlanan toplam gönderim kaydı.",
+      "failedSendCount": "Başarısız Gönderimler",
+      "failedSendCountHint": "Başarısızlıkla sonuçlanan toplam gönderim kaydı."
     },
     "batchSummaryTitle": "Batch Durum Özeti",
     "batch": {
@@ -39,11 +65,33 @@
     "recentActivities": "Son Gönderim Aktiviteleri",
     "detailReport": "Detay Rapor",
     "noRecent": "Henüz gönderim kaydı yok.",
+    "noRecentActivity": "Henüz görüntülenecek yeni gönderim aktivitesi yok.",
     "status": {
       "Success": "Başarılı",
       "Failed": "Başarısız",
       "Processing": "İşleniyor",
       "Pending": "Beklemede"
+    },
+    "activity": {
+      "batch": "Batch",
+      "retryCount": "Retry"
+    },
+    "health": {
+      "api": "API",
+      "database": "Veritabanı",
+      "rabbitMq": "RabbitMQ",
+      "worker": "Worker",
+      "noMessage": "Ek detay mevcut değil.",
+      "lastChecked": "Son kontrol:",
+      "lastHeartbeat": "Son heartbeat:",
+      "lastActivity": "Son aktivite:",
+      "status": {
+        "Healthy": "Sağlıklı",
+        "Unhealthy": "Sorunlu",
+        "Unknown": "Bilinmiyor",
+        "NotConfigured": "Yapılandırılmadı",
+        "Unused": "Kullanılmıyor"
+      }
     },
     "quickAccess": "Hızlı Erişim",
     "links": {
@@ -150,6 +198,64 @@
     "selectAtLeastOne": "En az bir abone seçiniz.",
     "start": "Gönderimi Başlat",
     "confirmCreate": "Gönderim kuyruğu oluşturulsun mu?",
+    "recommendations": {
+      "eyebrow": "Kampanya Önerileri",
+      "title": "1 Tık Kampanya Önerileri",
+      "description": "Bir kampanya hedefi seçin, isterseniz kısa bağlam bilgisi girin ve önerileri sonraki adımda kullanmadan önce inceleyin.",
+      "reviewOnly": "Sadece İnceleme",
+      "goalLabel": "Kampanya Hedefi",
+      "goalPlaceholder": "Kampanya hedefi seçin",
+      "contextTitle": "Opsiyonel Bağlam",
+      "contextHint": "Bunu hafif tutun. Alanları boş bırakabilirsiniz.",
+      "request": "Önerileri Getir",
+      "resetContext": "Bağlamı Sıfırla",
+      "empty": "Öneri gruplarını üretmek için bir kampanya hedefi seçin.",
+      "loading": "Öneriler hazırlanıyor...",
+      "summaryTitle": "Öneri Özeti",
+      "providerLabel": "Sağlayıcı",
+      "subjectTitle": "Konu Satırı Önerileri",
+      "audienceTitle": "Hedef Kitle Önerileri",
+      "sendTimeTitle": "Gönderim Zamanı Önerileri",
+      "insightTitle": "Performans ve Hata İçgörüleri",
+      "metadata": {
+        "providerDisplayName": "Öneri Motoru",
+        "generationMode": "Üretim Modu",
+        "explanationStyle": "Açıklama Stili",
+        "recommendationVersion": "Sürüm"
+      },
+      "signals": {
+        "Opportunity": "Fırsat",
+        "Caution": "Dikkat",
+        "DeliveryStrategy": "Gönderim Stratejisi",
+        "AudienceFit": "Kitle Uyumu",
+        "MessagingQuality": "Mesaj Kalitesi"
+      },
+      "confirmationTitle": "İnceleme için hazır",
+      "confirmationText": "Önerileri kabul etmek yalnızca onları sonraki kullanım için gözden geçirilmiş olarak işaretler. Hiçbir kampanya gönderilmez.",
+      "acceptButton": "Önerileri Kabul Et",
+      "accepted": "Kabul Edildi",
+      "acceptedTitle": "Öneriler kabul edildi",
+      "acceptedText": "Bu öneriler yalnızca bu oturum için gözden geçirilmiş olarak işaretlendi ve sonraki adımda manuel kullanım için hazır.",
+      "confirmAccept": "Bu öneriler sonraki inceleme için kabul edilsin mi?",
+      "goals": {
+        "ProductLaunch": "Ürün Lansmanı",
+        "DiscountOffer": "İndirim Teklifi",
+        "ReEngagement": "Yeniden Etkileşim",
+        "Newsletter": "Bülten",
+        "SpecialAnnouncement": "Özel Duyuru"
+      },
+      "context": {
+        "availableTemplateCount": "Mevcut Şablon Sayısı",
+        "totalSubscriberCount": "Toplam Abone Sayısı",
+        "activeSubscriberCount": "Aktif Abone Sayısı",
+        "inactiveSubscriberCount": "Pasif Abone Sayısı",
+        "recentSuccessfulSendCount": "Son Başarılı Gönderim Sayısı",
+        "recentFailedSendCount": "Son Başarısız Gönderim Sayısı"
+      },
+      "toast": {
+        "accepted": "Öneriler kabul edildi olarak işaretlendi."
+      }
+    },
     "toast": {
       "created": "Gönderim kuyruğu oluşturuldu."
     },

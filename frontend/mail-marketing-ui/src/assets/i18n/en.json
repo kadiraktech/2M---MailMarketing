@@ -23,11 +23,37 @@
   "dashboardPage": {
     "panel": "Admin Panel",
     "welcome": "Welcome,",
+    "liveTitle": "Live Operations Dashboard",
+    "lastUpdated": "Last updated:",
+    "loading": "Loading live dashboard data...",
+    "refreshError": "Dashboard data could not be refreshed.",
     "kpi": {
       "subscribers": "Subscriber Count",
       "templates": "Template Count",
       "sendItems": "Send Records",
       "successRate": "Success Rate"
+    },
+    "sections": {
+      "queue": "Queue",
+      "sending": "Sending",
+      "health": "System Health",
+      "recentActivity": "Recent Activity"
+    },
+    "queue": {
+      "totalQueuedJobs": "Queued Jobs",
+      "totalQueuedJobsHint": "Jobs waiting to be picked up by the worker.",
+      "processingJobs": "Processing Jobs",
+      "processingJobsHint": "Jobs currently being handled by the worker.",
+      "retryPendingJobs": "Retry Pending",
+      "retryPendingJobsHint": "Queued jobs waiting for another attempt."
+    },
+    "sending": {
+      "activeSendOperations": "Active Send Ops",
+      "activeSendOperationsHint": "Running batches that still have pending work.",
+      "successfulSendCount": "Successful Sends",
+      "successfulSendCountHint": "Total send items completed successfully.",
+      "failedSendCount": "Failed Sends",
+      "failedSendCountHint": "Total send items that ended in failure."
     },
     "batchSummaryTitle": "Batch Status Summary",
     "batch": {
@@ -39,11 +65,33 @@
     "recentActivities": "Recent Send Activities",
     "detailReport": "Detailed Report",
     "noRecent": "No send records yet.",
+    "noRecentActivity": "No recent send activity is available yet.",
     "status": {
       "Success": "Success",
       "Failed": "Failed",
       "Processing": "Processing",
       "Pending": "Pending"
+    },
+    "activity": {
+      "batch": "Batch",
+      "retryCount": "Retry"
+    },
+    "health": {
+      "api": "API",
+      "database": "Database",
+      "rabbitMq": "RabbitMQ",
+      "worker": "Worker",
+      "noMessage": "No additional detail available.",
+      "lastChecked": "Last checked:",
+      "lastHeartbeat": "Last heartbeat:",
+      "lastActivity": "Last activity:",
+      "status": {
+        "Healthy": "Healthy",
+        "Unhealthy": "Unhealthy",
+        "Unknown": "Unknown",
+        "NotConfigured": "Not Configured",
+        "Unused": "Unused"
+      }
     },
     "quickAccess": "Quick Access",
     "links": {
@@ -150,6 +198,64 @@
     "selectAtLeastOne": "Select at least one subscriber.",
     "start": "Start Sending",
     "confirmCreate": "Create send queue?",
+    "recommendations": {
+      "eyebrow": "Campaign Recommendations",
+      "title": "1-click Campaign Recommendations",
+      "description": "Choose a campaign goal, optionally add a little context, and review goal-based recommendations before using them in your planning flow.",
+      "reviewOnly": "Review Only",
+      "goalLabel": "Campaign Goal",
+      "goalPlaceholder": "Select a campaign goal",
+      "contextTitle": "Optional Context",
+      "contextHint": "Keep this lightweight. Blank fields are allowed.",
+      "request": "Get Recommendations",
+      "resetContext": "Reset Context",
+      "empty": "Select a campaign goal to generate recommendation groups.",
+      "loading": "Preparing recommendations...",
+      "summaryTitle": "Recommendation Summary",
+      "providerLabel": "Provider",
+      "subjectTitle": "Subject Suggestions",
+      "audienceTitle": "Audience Suggestions",
+      "sendTimeTitle": "Send Time Suggestions",
+      "insightTitle": "Performance & Failure Insights",
+      "metadata": {
+        "providerDisplayName": "Recommendation Engine",
+        "generationMode": "Generation Mode",
+        "explanationStyle": "Explanation Style",
+        "recommendationVersion": "Version"
+      },
+      "signals": {
+        "Opportunity": "Opportunity",
+        "Caution": "Caution",
+        "DeliveryStrategy": "Delivery Strategy",
+        "AudienceFit": "Audience Fit",
+        "MessagingQuality": "Messaging Quality"
+      },
+      "confirmationTitle": "Ready for review",
+      "confirmationText": "Accepting recommendations only marks them as reviewed for downstream use. It does not send any campaign.",
+      "acceptButton": "Accept Recommendations",
+      "accepted": "Accepted",
+      "acceptedTitle": "Recommendations accepted",
+      "acceptedText": "These recommendations are marked as reviewed in this session only and are ready to use manually in the next step.",
+      "confirmAccept": "Accept these recommendations for downstream review?",
+      "goals": {
+        "ProductLaunch": "Product Launch",
+        "DiscountOffer": "Discount Offer",
+        "ReEngagement": "Re-Engagement",
+        "Newsletter": "Newsletter",
+        "SpecialAnnouncement": "Special Announcement"
+      },
+      "context": {
+        "availableTemplateCount": "Available Template Count",
+        "totalSubscriberCount": "Total Subscriber Count",
+        "activeSubscriberCount": "Active Subscriber Count",
+        "inactiveSubscriberCount": "Inactive Subscriber Count",
+        "recentSuccessfulSendCount": "Recent Successful Send Count",
+        "recentFailedSendCount": "Recent Failed Send Count"
+      },
+      "toast": {
+        "accepted": "Recommendations marked as accepted."
+      }
+    },
     "toast": {
       "created": "Send queue created."
     },

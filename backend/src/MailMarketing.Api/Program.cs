@@ -2,6 +2,7 @@
 using MailMarketing.Api.Background;
 using MailMarketing.Api.Extensions;
 using MailMarketing.Api.Options;
+using MailMarketing.Api.Services;
 using MailMarketing.Business.Interfaces;
 using MailMarketing.Business.Models.Auth;
 using MailMarketing.Business.Services;
@@ -36,9 +37,11 @@ var connStr = builder.Configuration.GetConnectionString("Default")
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connStr));
 
 builder.Services.AddSingleton<IAesEncryptionService, AesGcmEncryptionService>();
+builder.Services.AddSingleton<IWorkerHeartbeatTracker, WorkerHeartbeatTracker>();
 builder.Services.AddScoped<IEmailSenderService, MailKitEmailSenderService>();
 builder.Services.AddScoped<IQueueProcessorService, QueueProcessorService>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
+builder.Services.AddScoped<ICampaignRecommendationProvider, RuleBasedCampaignRecommendationProvider>();
 builder.Services.AddScoped<PasswordHasher<AppUser>>();
 
 builder.Services.AddScoped<IAuthService, AuthService>();

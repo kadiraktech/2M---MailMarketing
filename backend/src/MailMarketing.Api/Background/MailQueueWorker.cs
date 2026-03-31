@@ -1,4 +1,5 @@
-﻿using MailMarketing.Api.Options;
+using MailMarketing.Api.Options;
+using MailMarketing.Api.Services;
 using MailMarketing.Business.Interfaces;
 using Microsoft.Extensions.Options;
 
@@ -7,6 +8,7 @@ namespace MailMarketing.Api.Background;
 public sealed class MailQueueWorker(
     IServiceScopeFactory scopeFactory,
     IOptions<QueueWorkerOptions> options,
+    IWorkerHeartbeatTracker heartbeatTracker,
     ILogger<MailQueueWorker> logger) : BackgroundService
 {
     private readonly QueueWorkerOptions _options = options.Value;
@@ -20,10 +22,14 @@ public sealed class MailQueueWorker(
             _options.EmailTimeoutSeconds,
             _options.MaxRetryCount);
 
+        heartbeatTracker.MarkHeartbeat();
+
         while (!stoppingToken.IsCancellationRequested)
         {
             try
             {
+                heartbeatTracker.MarkHeartbeat();
+
                 using var claimScope = scopeFactory.CreateScope();
                 var processor = claimScope.ServiceProvider.GetRequiredService<IQueueProcessorService>();
 
@@ -34,6 +40,7 @@ public sealed class MailQueueWorker(
                     continue;
                 }
 
+                heartbeatTracker.MarkActivity();
                 logger.LogInformation("Claimed {Count} queue job(s): {Ids}", claimedJobIds.Count, string.Join(',', claimedJobIds));
 
                 await Parallel.ForEachAsync(
@@ -47,12 +54,15 @@ public sealed class MailQueueWorker(
                     {
                         try
                         {
+                            heartbeatTracker.MarkActivity();
                             using var processScope = scopeFactory.CreateScope();
                             var scopedProcessor = processScope.ServiceProvider.GetRequiredService<IQueueProcessorService>();
                             await scopedProcessor.ProcessJobAsync(jobId, _options.EmailTimeoutSeconds, _options.MaxRetryCount, token);
+                            heartbeatTracker.MarkActivity();
                         }
                         catch (Exception ex) when (!token.IsCancellationRequested)
                         {
+                            heartbeatTracker.MarkActivity();
                             logger.LogError(ex, "Queue job processing failed for JobId={JobId}", jobId);
                         }
                     });
@@ -69,4 +79,3 @@ public sealed class MailQueueWorker(
         }
     }
 }
-

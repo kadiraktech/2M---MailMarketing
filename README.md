@@ -1,56 +1,55 @@
 # 2M - MailMarketing
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue)
-![Angular](https://img.shields.io/badge/frontend-angular-red)
-![Docker](https://img.shields.io/badge/docker-ready-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
+2M - MailMarketing is a full-stack email marketing platform with a multilingual Angular admin application and a .NET backend for subscriber management, template management, campaign sending, reporting, live operational visibility, and rule-based campaign recommendations.
 
-Modern Email Marketing Platform with Admin Dashboard and Subscriber Management.
+## Overview
 
-2M - MailMarketing is a full-stack email marketing management system that provides subscriber management, campaign infrastructure, and a modern multilingual admin interface.
+The project is organized as a monorepo with:
 
----
+- `frontend/mail-marketing-ui`: Angular 19 admin and public subscription UI
+- `backend`: .NET 8 API, business layer, domain models, data access, background worker, and tests
+- `docker-compose.yml`: local development stack for frontend, backend, PostgreSQL, Redis, RabbitMQ, and SonarQube
 
-# Features
+The current product direction is practical and operator-focused:
 
-Admin Panel
+- campaign management and bulk send operations
+- live operational dashboard for admin users
+- rule-based recommendation support for campaign planning
+- clear separation between recommendations and actual send execution
 
-- Dashboard analytics
-- Subscriber management
-- Template management
-- Campaign sending
-- Reporting and analytics
-- System settings
-- User management
+## Current Architecture
 
-Localization
+### Frontend
 
-- TR / EN language switching
-- ngx-translate based architecture
-- reactive language toggle
-- centralized I18nService
+- Angular 19 standalone components
+- PrimeNG UI components
+- ngx-translate for Turkish / English localization
+- admin shell with authenticated routes
+- public subscription page
 
-Subscriber System
+### Backend
 
-- Public subscription page
-- Subscriber registration
-- Subscriber filtering
-- Subscriber list management
+- .NET 8 Web API
+- layered structure across API, Business, Data, and Domain projects
+- Entity Framework Core with PostgreSQL
+- JWT-based authentication and role-aware admin access
+- background mail queue worker with polling-based processing
 
-Infrastructure
+### Infrastructure
 
-- Docker development environment
-- PostgreSQL database
-- Angular admin frontend
-- REST backend API
+- PostgreSQL for application data
+- Redis provisioned in local stack
+- RabbitMQ provisioned in local stack
+- Docker / Docker Compose for local startup
 
----
+Note:
 
-# Admin Interface
+- RabbitMQ is configured in the environment and surfaced honestly in health output, but it is not currently part of the active mail send flow.
+- Campaign recommendations are currently rule-based and LLM-ready in structure, but there is no real LLM integration yet.
 
-The project includes a modern Angular-based admin panel.
+## Major Implemented Features
 
-Admin pages include:
+### Admin Product Areas
 
 - Dashboard
 - Subscribers
@@ -61,93 +60,156 @@ Admin pages include:
 - Users
 - Profile
 
-The admin interface supports dynamic language switching between Turkish and English.
+### Subscriber and Campaign Operations
 
----
+- public newsletter subscription flow
+- subscriber listing, filtering, and management
+- template management with active/inactive state
+- authenticated bulk send queue creation
+- reporting over send items and batches
 
-# Public Subscription Page
+### Live Admin Dashboard
 
-A public-facing subscription page allows users to join the mailing list.
+The admin dashboard now includes a polling-based live operations view backed by:
 
-Features include:
+- queue metrics
+  - total queued jobs
+  - processing jobs
+  - retry-pending jobs
+- sending metrics
+  - active send operations
+  - successful send count
+  - failed send count
+- recent activity feed
+- system health summary for:
+  - API
+  - database
+  - RabbitMQ
+  - worker heartbeat
 
-- Newsletter signup
-- Email capture
-- Campaign updates
+Implementation notes:
 
----
+- frontend polls the backend every 10 seconds
+- backend health remains truthful
+- worker health uses minimal in-memory heartbeat telemetry
+- no WebSocket layer is used in the current version
 
-# Technology Stack
+### Campaign Recommendation Engine
 
-Frontend
+The send page includes a recommendation workflow for admin / campaign manager users.
 
-- Angular
-- PrimeNG
+Supported campaign goals:
+
+- `ProductLaunch`
+- `DiscountOffer`
+- `ReEngagement`
+- `Newsletter`
+- `SpecialAnnouncement`
+
+Current recommendation areas:
+
+- subject suggestions
+- audience suggestions
+- send time suggestions
+- performance / failure insights
+
+Recommendation experience principles:
+
+- recommendation + review + user confirmation
+- no auto-send
+- no auto-apply into the send flow
+- deterministic and explainable output
+
+### Insight Signal Categories and Recommendation Metadata
+
+Recommendation insights now support lightweight signal categories:
+
+- `Opportunity`
+- `Caution`
+- `DeliveryStrategy`
+- `AudienceFit`
+- `MessagingQuality`
+
+Recommendation responses also include provider-oriented metadata for future evolution:
+
+- provider name and display name
+- provider type
+- generation mode
+- explanation style
+- recommendation version
+
+These fields are intended to support future provider evolution cleanly without overstating current AI capability.
+
+## Technology Stack
+
+### Frontend
+
+- Angular 19
 - TypeScript
+- PrimeNG
+- ngx-translate
 
-Backend
+### Backend
 
-- .NET API
-- REST architecture
+- .NET 8
+- ASP.NET Core Web API
+- Entity Framework Core
+- Npgsql / PostgreSQL
 
-Database
-
-- PostgreSQL
-
-Infrastructure
+### Infrastructure
 
 - Docker
 - Docker Compose
+- PostgreSQL 16
+- Redis 7
+- RabbitMQ 3 Management
+- SonarQube Community
 
-Localization
+### Testing and Verification
 
-- ngx-translate
+- .NET unit tests
+- Docker-based Angular production build verification
+- Selenium test project present under frontend tests
 
-Testing
+## Repository Structure
 
-- Selenium runtime verification
-
----
-
-# Project Structure
-
+```text
 frontend/
-
-Angular admin UI
+  mail-marketing-ui/
 
 backend/
+  src/
+  tests/
 
-API server
-
+scripts/
 docker-compose.yml
-
-Local development environment
-
----
-
-# Running the Project
-
-Start the entire stack using Docker.
-
-```bash
-docker compose up -d
+README.md
 ```
 
-Then access:
+## Local Run with Docker
 
-Admin Panel
+Start the full local stack:
 
-http://localhost:4200/admin
+```bash
+docker compose up -d --build
+```
 
-Public Subscription Page
+Main URLs and ports:
 
-http://localhost:4200/subscribe
+- Frontend admin: `http://localhost:4200/admin`
+- Frontend public subscribe page: `http://localhost:4200/subscribe`
+- Backend API: `http://localhost:5000`
+- PostgreSQL: `localhost:5432`
+- Redis: `localhost:6379`
+- RabbitMQ AMQP: `localhost:5672`
+- RabbitMQ Management: `http://localhost:15672`
+- SonarQube: `http://localhost:9000`
 
----
+Development note:
 
-# Development
+- Swagger UI is available when the backend runs in Development mode.
 
-Frontend development:
+## Frontend Development
 
 ```bash
 cd frontend/mail-marketing-ui
@@ -155,48 +217,53 @@ npm install
 npm start
 ```
 
-Backend development depends on .NET runtime.
+## Backend Development
 
----
+```bash
+dotnet build backend/MailMarketing.sln
+dotnet test backend/MailMarketing.sln
+```
 
-# Localization System
+## Verification Notes
 
-The application uses ngx-translate with a centralized language service.
+Recently verified feature areas include:
 
-Language toggle buttons allow instant switching between Turkish and English across the admin interface.
+- live admin dashboard frontend and backend
+- live-dashboard polling endpoint
+- worker heartbeat telemetry
+- rule-based campaign recommendation backend
+- recommendation flow on the send page
+- insight signal categories
+- provider metadata display
 
-Translation files are located in:
+Verification approach used in this repository:
 
-`src/assets/i18n/`
+- backend solution build
+- backend tests
+- Docker-based Angular build when host npm is unavailable
 
----
+## Recommendation Engine Status
 
-# Version History
+The recommendation engine is currently:
 
-## v1.0.0
+- rule-based
+- deterministic
+- explainable
+- safe for review-first workflows
+- structured for future provider evolution
 
-Initial production-ready version.
+It is not currently:
 
-Includes:
+- real LLM generation
+- automated send optimization
+- personalized model scoring
+- confidence-based ML output
 
-- Admin dashboard
-- Subscriber management
-- Campaign infrastructure
-- Multilingual UI (TR/EN)
-- Docker development environment
-
----
-
-# License
+## License
 
 MIT License
 
----
+## Author
 
-# Author
-
-Kadir Ak
-
-GitHub
-
-https://github.com/kadiraktech
+Kadir Ak  
+GitHub: https://github.com/kadiraktech
