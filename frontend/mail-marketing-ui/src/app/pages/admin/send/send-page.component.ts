@@ -560,6 +560,19 @@ export class SendPageComponent {
       this.subscribers = res.filter((x) => x.isActive);
       this.seedRecommendationContext();
     });
+
+    const recentFromUtc = new Date();
+    recentFromUtc.setUTCDate(recentFromUtc.getUTCDate() - 10);
+    this.api.getReportItems({ fromUtc: recentFromUtc.toISOString() }).subscribe((items) => {
+      const recentSuccessfulSendCount = items.filter((x) => x.status === 'Success').length;
+      const recentFailedSendCount = items.filter((x) => x.status === 'Failed').length;
+
+      const current = this.recommendationForm.getRawValue();
+      this.recommendationForm.patchValue({
+        recentSuccessfulSendCount: current.recentSuccessfulSendCount ?? recentSuccessfulSendCount,
+        recentFailedSendCount: current.recentFailedSendCount ?? recentFailedSendCount
+      });
+    });
   }
 
   get canSubmit(): boolean {

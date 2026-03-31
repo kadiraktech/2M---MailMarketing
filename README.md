@@ -1,55 +1,55 @@
 # 2M - MailMarketing
 
-2M - MailMarketing is a full-stack email marketing platform with a multilingual Angular admin application and a .NET backend for subscriber management, template management, campaign sending, reporting, live operational visibility, and rule-based campaign recommendations.
+2M - MailMarketing, çok dilli Angular yönetim arayüzü ve .NET tabanlı backend katmanıyla; abone yönetimi, şablon yönetimi, toplu gönderim, raporlama, canlı operasyon görünürlüğü ve kural tabanlı kampanya önerileri sunan bir e-posta pazarlama platformudur.
 
-## Overview
+## Genel Bakış
 
-The project is organized as a monorepo with:
+Proje bir monorepo yapısında aşağıdaki ana parçalardan oluşur:
 
-- `frontend/mail-marketing-ui`: Angular 19 admin and public subscription UI
-- `backend`: .NET 8 API, business layer, domain models, data access, background worker, and tests
-- `docker-compose.yml`: local development stack for frontend, backend, PostgreSQL, Redis, RabbitMQ, and SonarQube
+- `frontend/mail-marketing-ui`: Angular 19 tabanlı admin paneli ve herkese açık abonelik arayüzü
+- `backend`: .NET 8 API, iş katmanı, domain modelleri, veri erişimi, arka plan worker ve testler
+- `docker-compose.yml`: frontend, backend, PostgreSQL, Redis, RabbitMQ ve SonarQube içeren yerel geliştirme stack'i
 
-The current product direction is practical and operator-focused:
+Ürünün mevcut yönü operasyonel kullanım kolaylığına odaklanır:
 
-- campaign management and bulk send operations
-- live operational dashboard for admin users
-- rule-based recommendation support for campaign planning
-- clear separation between recommendations and actual send execution
+- kampanya ve toplu gönderim yönetimi
+- admin kullanıcıları için canlı operasyon dashboard'u
+- kampanya planlama için kural tabanlı öneri desteği
+- öneri akışı ile gerçek gönderim akışının net biçimde ayrılması
 
-## Current Architecture
+## Güncel Mimari
 
 ### Frontend
 
-- Angular 19 standalone components
-- PrimeNG UI components
-- ngx-translate for Turkish / English localization
-- admin shell with authenticated routes
-- public subscription page
+- Angular 19 standalone component yapısı
+- PrimeNG bileşenleri
+- Türkçe / İngilizce dil desteği için `ngx-translate`
+- kimlik doğrulamalı admin shell yapısı
+- herkese açık abonelik sayfası
 
 ### Backend
 
 - .NET 8 Web API
-- layered structure across API, Business, Data, and Domain projects
-- Entity Framework Core with PostgreSQL
-- JWT-based authentication and role-aware admin access
-- background mail queue worker with polling-based processing
+- API, Business, Data ve Domain katmanlarına ayrılmış yapı
+- PostgreSQL üzerinde Entity Framework Core
+- JWT tabanlı kimlik doğrulama ve role-aware admin erişimi
+- polling tabanlı arka plan mail queue worker
 
-### Infrastructure
+### Altyapı
 
-- PostgreSQL for application data
-- Redis provisioned in local stack
-- RabbitMQ provisioned in local stack
-- Docker / Docker Compose for local startup
+- uygulama verisi için PostgreSQL
+- yerel stack içinde Redis
+- yerel stack içinde RabbitMQ
+- Docker ve Docker Compose ile hızlı yerel çalışma
 
-Note:
+Notlar:
 
-- RabbitMQ is configured in the environment and surfaced honestly in health output, but it is not currently part of the active mail send flow.
-- Campaign recommendations are currently rule-based and LLM-ready in structure, but there is no real LLM integration yet.
+- RabbitMQ ortamda hazırdır ve sağlık çıktısında dürüst biçimde gösterilir; ancak aktif mail gönderim akışının bir parçası değildir.
+- Kampanya öneri sistemi şu an kural tabanlıdır ve gelecekte gerçek bir sağlayıcı eklenebilecek şekilde tasarlanmıştır; gerçek LLM entegrasyonu yoktur.
 
-## Major Implemented Features
+## Başlıca Özellikler
 
-### Admin Product Areas
+### Admin Ürün Alanları
 
 - Dashboard
 - Subscribers
@@ -60,45 +60,45 @@ Note:
 - Users
 - Profile
 
-### Subscriber and Campaign Operations
+### Abone ve Kampanya Operasyonları
 
-- public newsletter subscription flow
-- subscriber listing, filtering, and management
-- template management with active/inactive state
-- authenticated bulk send queue creation
-- reporting over send items and batches
+- herkese açık bülten aboneliği
+- abone listeleme, filtreleme ve yönetimi
+- aktif / pasif durumlu şablon yönetimi
+- kimlik doğrulamalı toplu gönderim kuyruğu oluşturma
+- send item ve batch bazlı raporlama
 
-### Live Admin Dashboard
+### Canlı Admin Dashboard
 
-The admin dashboard now includes a polling-based live operations view backed by:
+Admin dashboard, artık polling tabanlı canlı operasyon görünümü sunar:
 
-- queue metrics
-  - total queued jobs
-  - processing jobs
-  - retry-pending jobs
-- sending metrics
-  - active send operations
-  - successful send count
-  - failed send count
-- recent activity feed
-- system health summary for:
+- kuyruk metrikleri
+  - toplam bekleyen iş
+  - işlenmekte olan işler
+  - retry bekleyen işler
+- gönderim metrikleri
+  - aktif gönderim operasyonları
+  - başarılı gönderim sayısı
+  - başarısız gönderim sayısı
+- son aktivite listesi
+- sistem sağlık özeti
   - API
-  - database
+  - veritabanı
   - RabbitMQ
   - worker heartbeat
 
-Implementation notes:
+Uygulama notları:
 
-- frontend polls the backend every 10 seconds
-- backend health remains truthful
-- worker health uses minimal in-memory heartbeat telemetry
-- no WebSocket layer is used in the current version
+- frontend her 10 saniyede bir güncellenir
+- backend sağlık çıktısı gerçeği yansıtır
+- worker sağlık durumu hafif bir in-memory heartbeat ile izlenir
+- mevcut sürümde WebSocket kullanılmaz
 
-### Campaign Recommendation Engine
+### Kampanya Öneri Motoru
 
-The send page includes a recommendation workflow for admin / campaign manager users.
+Send sayfasında admin / campaign manager kullanımına uygun bir öneri akışı bulunur.
 
-Supported campaign goals:
+Desteklenen kampanya hedefleri:
 
 - `ProductLaunch`
 - `DiscountOffer`
@@ -106,23 +106,23 @@ Supported campaign goals:
 - `Newsletter`
 - `SpecialAnnouncement`
 
-Current recommendation areas:
+Mevcut öneri alanları:
 
-- subject suggestions
-- audience suggestions
-- send time suggestions
-- performance / failure insights
+- konu başlığı önerileri
+- hedef kitle / segment önerileri
+- gönderim zamanı önerileri
+- performans / hata içgörüleri
 
-Recommendation experience principles:
+Öneri deneyimi prensipleri:
 
-- recommendation + review + user confirmation
-- no auto-send
-- no auto-apply into the send flow
-- deterministic and explainable output
+- öneri + inceleme + kullanıcı onayı
+- otomatik gönderim yok
+- send akışına otomatik uygulama yok
+- deterministik ve açıklanabilir çıktı
 
-### Insight Signal Categories and Recommendation Metadata
+### İçgörü Sinyal Kategorileri ve Sağlayıcı Metadatası
 
-Recommendation insights now support lightweight signal categories:
+Öneri içgörüleri şu hafif sinyal kategorilerini destekler:
 
 - `Opportunity`
 - `Caution`
@@ -130,17 +130,74 @@ Recommendation insights now support lightweight signal categories:
 - `AudienceFit`
 - `MessagingQuality`
 
-Recommendation responses also include provider-oriented metadata for future evolution:
+Öneri yanıtları ayrıca gelecekteki sağlayıcı evrimine alan açan metadata da taşır:
 
-- provider name and display name
+- sağlayıcı adı ve görünen adı
 - provider type
 - generation mode
 - explanation style
 - recommendation version
 
-These fields are intended to support future provider evolution cleanly without overstating current AI capability.
+Bu alanlar bugünkü yetenekleri abartmadan, ileride gerçek sağlayıcı entegrasyonuna temiz geçiş için eklenmiştir.
 
-## Technology Stack
+## Demo Verisi ve Ekran Görüntüsü Hazırlığı
+
+Geliştirme ortamında proje, anlamlı demo ekranları için kontrollü bir demo veri hikayesi üretebilir.
+
+### Demo Hikayesi
+
+Demo veri akışı sistemi şu aralıkta aktif şekilde test edilmiş gibi gösterir:
+
+- başlangıç: `2026-03-22`
+- bitiş: `2026-03-31`
+
+Bu demo veri seti şunları içerir:
+
+- yaklaşık 90 demo subscriber
+- aktif ve pasif abone karışımı
+- 6 anlamlı template
+- birden çok güne dağıtılmış send batch geçmişi
+- başarılı ve başarısız gönderimler
+- retry bekleyen queue kayıtları
+- halen çalışan bir batch görünümü
+- dashboard ve reporting için son aktivite verileri
+
+### Demo Seed Davranışı
+
+- demo verisi yalnızca development başlangıcında seed edilir
+- tekrar tekrar aynı veriyi çoğaltmamak için marker kontrollü ve idempotent çalışır
+- `DEMO_SEED_ENABLED=false` verilirse demo seed kapatılabilir
+
+### Demo Verisini Yeniden Üretme
+
+Fresh demo durumu için:
+
+```powershell
+./scripts/demo-reseed.ps1
+```
+
+Bu script:
+
+1. mevcut Docker Compose stack'ini durdurur
+2. veritabanı volume'unu temizler
+3. stack'i yeniden build edip ayağa kaldırır
+4. seed akışıyla demo veriyi yeniden üretir
+
+### Demo Verisini Temizleme
+
+Sadece temizlemek isterseniz:
+
+```powershell
+docker compose down -v
+```
+
+Sonrasında yeniden başlatmak için:
+
+```powershell
+docker compose up -d --build
+```
+
+## Teknoloji Yığını
 
 ### Frontend
 
@@ -156,7 +213,7 @@ These fields are intended to support future provider evolution cleanly without o
 - Entity Framework Core
 - Npgsql / PostgreSQL
 
-### Infrastructure
+### Altyapı
 
 - Docker
 - Docker Compose
@@ -165,13 +222,13 @@ These fields are intended to support future provider evolution cleanly without o
 - RabbitMQ 3 Management
 - SonarQube Community
 
-### Testing and Verification
+### Test ve Doğrulama
 
-- .NET unit tests
-- Docker-based Angular production build verification
-- Selenium test project present under frontend tests
+- .NET unit testleri
+- host `npm` yoksa Docker tabanlı Angular build doğrulaması
+- `frontend/tests` altında Selenium test projesi
 
-## Repository Structure
+## Depo Yapısı
 
 ```text
 frontend/
@@ -186,30 +243,32 @@ docker-compose.yml
 README.md
 ```
 
-## Local Run with Docker
+## Docker ile Yerel Çalıştırma
 
-Start the full local stack:
+Tam stack'i başlatmak için:
 
 ```bash
 docker compose up -d --build
 ```
 
-Main URLs and ports:
+Ana URL ve portlar:
 
-- Frontend admin: `http://localhost:4200/admin`
-- Frontend public subscribe page: `http://localhost:4200/subscribe`
+- Admin UI: `http://localhost:4200/admin`
+- Public subscribe sayfası: `http://localhost:4200/subscribe`
 - Backend API: `http://localhost:5000`
+- Swagger UI: `http://localhost:5000/swagger/index.html`
 - PostgreSQL: `localhost:5432`
 - Redis: `localhost:6379`
 - RabbitMQ AMQP: `localhost:5672`
 - RabbitMQ Management: `http://localhost:15672`
 - SonarQube: `http://localhost:9000`
 
-Development note:
+Varsayılan geliştirme kullanıcıları:
 
-- Swagger UI is available when the backend runs in Development mode.
+- Admin: `admin@mailmarketing.local` / `Admin123!`
+- User: `user@mailmarketing.local` / `User123!`
 
-## Frontend Development
+## Frontend Geliştirme
 
 ```bash
 cd frontend/mail-marketing-ui
@@ -217,53 +276,54 @@ npm install
 npm start
 ```
 
-## Backend Development
+## Backend Geliştirme
 
 ```bash
 dotnet build backend/MailMarketing.sln
 dotnet test backend/MailMarketing.sln
 ```
 
-## Verification Notes
+## Doğrulama Notları
 
-Recently verified feature areas include:
+Yakın zamanda doğrulanan alanlar:
 
-- live admin dashboard frontend and backend
-- live-dashboard polling endpoint
+- canlı admin dashboard frontend ve backend
+- live-dashboard polling endpoint'i
 - worker heartbeat telemetry
-- rule-based campaign recommendation backend
-- recommendation flow on the send page
+- kural tabanlı kampanya öneri backend'i
+- send sayfasındaki öneri akışı
 - insight signal categories
-- provider metadata display
+- provider metadata gösterimi
+- demo seed ve screenshot hazırlık akışı
 
-Verification approach used in this repository:
+Bu depoda kullanılan doğrulama yaklaşımı:
 
 - backend solution build
-- backend tests
-- Docker-based Angular build when host npm is unavailable
+- backend testleri
+- gerekirse Docker tabanlı Angular build
 
-## Recommendation Engine Status
+## Öneri Motoru Durumu
 
-The recommendation engine is currently:
+Öneri motoru şu anda:
 
-- rule-based
-- deterministic
-- explainable
-- safe for review-first workflows
-- structured for future provider evolution
+- kural tabanlı
+- deterministik
+- açıklanabilir
+- review-first akışlar için güvenli
+- gelecekte provider genişlemesine hazır
 
-It is not currently:
+Şu anda olmayanlar:
 
-- real LLM generation
-- automated send optimization
-- personalized model scoring
-- confidence-based ML output
+- gerçek LLM üretimi
+- otomatik gönderim optimizasyonu
+- kişiselleştirilmiş model skorlama
+- confidence tabanlı ML çıktısı
 
-## License
+## Lisans
 
 MIT License
 
-## Author
+## Yazar
 
 Kadir Ak  
 GitHub: https://github.com/kadiraktech

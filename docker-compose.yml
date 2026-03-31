@@ -33,6 +33,7 @@ services:
       Jwt__Audience: ${JWT_AUDIENCE:-MailMarketingFrontend}
       Jwt__SecretKey: ${JWT_SECRET_KEY:-DEV_SECRET_CHANGE_ME_12345678901234567890}
       APP_AES_KEY: ${APP_AES_KEY}
+      DEMO_SEED_ENABLED: ${DEMO_SEED_ENABLED:-true}
     ports:
       - "5000:5000"
 
